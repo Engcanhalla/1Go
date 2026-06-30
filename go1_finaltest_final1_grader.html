@@ -1,0 +1,268 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 서해고 1학년 영어 최종1 — 객관식 즉시 채점기</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --primary:#0d9488;--primary-light:#ccfbf1;--primary-dark:#115e59;
+  --success:#16a34a;--success-light:#dcfce7;
+  --danger:#dc2626;--danger-light:#fee2e2;
+  --warning:#f59e0b;--warning-light:#fef3c7;
+  --bg:#f0fdfa;--card:#fff;--text:#1e293b;--muted:#64748b;--border:#a7f3d0;
+}
+body{font-family:'Segoe UI','Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;min-height:100vh;padding:20px 12px}
+.container{max-width:880px;margin:0 auto}
+header{text-align:center;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:24px 16px;border-radius:14px;box-shadow:0 4px 12px rgba(13,148,136,.25);margin-bottom:18px}
+header h1{font-size:1.45rem;margin-bottom:4px}
+header .sub{opacity:.92;font-size:.92rem}
+
+.card{background:var(--card);border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,.06),0 4px 14px rgba(0,0,0,.04);padding:22px;margin-bottom:18px}
+.card h2{color:var(--primary);font-size:1.05rem;margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.help{font-size:.85rem;color:var(--muted);background:var(--primary-light);padding:10px 12px;border-radius:8px;margin-bottom:14px;line-height:1.6}
+
+.ans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:680px){.ans-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:420px){.ans-grid{grid-template-columns:1fr}}
+
+.ans-cell{background:#fafafa;border:1.5px solid #e5e7eb;border-radius:10px;padding:8px 10px;display:flex;align-items:center;gap:8px;transition:all .2s}
+.ans-cell.answered{background:var(--primary-light);border-color:var(--primary)}
+.ans-cell.wrong-result{background:var(--danger-light);border-color:var(--danger)}
+.ans-cell.correct-result{background:var(--success-light);border-color:var(--success)}
+.ans-cell .num{font-weight:700;font-size:.92rem;color:var(--primary-dark);min-width:34px;text-align:center;background:#fff;padding:5px 0;border-radius:6px;border:1px solid var(--border)}
+.ans-cell.wrong-result .num{background:var(--danger);color:#fff;border-color:var(--danger)}
+.ans-cell.correct-result .num{background:var(--success);color:#fff;border-color:var(--success)}
+.opts{display:flex;gap:4px}
+.opt{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#fff;border:1.5px solid #cbd5e1;cursor:pointer;font-size:.85rem;font-weight:600;color:#64748b;transition:all .15s;user-select:none}
+.opt:hover{border-color:var(--primary);color:var(--primary)}
+.opt.selected{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+.actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.btn{flex:1;min-width:130px;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:12px 22px;border:none;border-radius:10px;font-size:1rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-dark);transform:translateY(-1px)}
+.btn-outline{background:#fff;border:2px solid var(--primary);color:var(--primary)}
+.btn-outline:hover{background:var(--primary-light)}
+
+.progress-info{display:flex;justify-content:space-between;align-items:center;font-size:.88rem;margin-bottom:8px}
+.progress-info .answered-count{font-weight:700;color:var(--primary-dark)}
+.progress-bar{height:8px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin-bottom:14px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--success));border-radius:99px;transition:width .3s}
+
+.exam-info{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 8px 8px 0;padding:10px 14px;font-size:.92rem;color:var(--primary-dark);margin-bottom:14px}
+.exam-info b{color:var(--primary-dark)}
+.score-circle-wrap{text-align:center;padding:20px 0}
+.score-circle{width:160px;height:160px;border-radius:50%;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;border:6px solid;font-size:2.4rem;font-weight:800;margin-bottom:10px}
+.score-circle.perfect{border-color:var(--warning);background:#fffbeb;color:var(--warning);animation:pulse 1s infinite}
+.score-circle.great{border-color:var(--success);background:var(--success-light);color:var(--success)}
+.score-circle.retry{border-color:var(--danger);background:var(--danger-light);color:var(--danger)}
+.score-circle small{font-size:.78rem;font-weight:400;margin-top:2px;opacity:.85}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+.score-msg{font-size:1.05rem;margin:8px 0;line-height:1.5}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.stat-box{background:#fafafa;border-radius:10px;padding:12px;text-align:center}
+.stat-box .label{font-size:.78rem;color:var(--muted);margin-bottom:4px}
+.stat-box .value{font-size:1.3rem;font-weight:700;color:var(--primary-dark)}
+.stat-box.correct .value{color:var(--success)}
+.stat-box.wrong .value{color:var(--danger)}
+
+.wrong-card{background:var(--danger-light);border-left:4px solid var(--danger);border-radius:0 10px 10px 0;padding:14px 16px;margin-bottom:12px}
+.wrong-card .wrong-header{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.wrong-card .wrong-num{background:var(--danger);color:#fff;width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:.88rem}
+.wrong-card .wrong-type{font-size:.72rem;background:#fff;color:var(--danger);padding:3px 9px;border-radius:99px;font-weight:600;border:1px solid var(--danger)}
+.wrong-card .wrong-pts{font-size:.72rem;color:var(--muted);margin-left:auto;font-weight:600}
+.wrong-card .my-pick{margin-top:4px;font-size:.86rem;color:#374151}
+.wrong-card .my-pick b{color:var(--danger)}
+.wrong-card .right-ans{background:#fff;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:.88rem;border-left:3px solid var(--success)}
+.wrong-card .right-ans b{color:var(--success)}
+.wrong-card .explanation{background:var(--warning-light);border-radius:8px;padding:8px 12px;margin-top:6px;font-size:.85rem;line-height:1.55;color:#713f12;border-left:3px solid var(--warning)}
+.wrong-card .explanation b{color:#92400e}
+
+.hidden{display:none!important}
+
+.all-correct{text-align:center;padding:20px;background:var(--success-light);border-radius:12px;color:var(--success);font-size:1.05rem;font-weight:600}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>🍁 객관식 즉시 채점기</h1>
+  <div class="sub">finaltestGo1 최종1 (날카로운 변형) · 객관식 33문제 · 66점 만점</div>
+</header>
+
+<div class="card">
+  <h2>📝 답안 입력</h2>
+  <div class="help">시험지를 풀고 아래 표에 자신의 답을 표시한 후 <b>채점하기</b>를 누르세요. 객관식 1~33번만 채점됩니다 (주관식 34~40번 제외).</div>
+  <div class="progress-info">
+    <span>진행률</span>
+    <span class="answered-count"><span id="cnt">0</span> / 33 완료</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="bar" style="width:0%"></div></div>
+  <div class="ans-grid" id="grid"></div>
+  <div class="actions">
+    <button class="btn btn-primary" onclick="grade()">✓ 채점하기</button>
+    <button class="btn btn-outline" onclick="reset()">↺ 초기화</button>
+  </div>
+</div>
+
+<div class="card hidden" id="result">
+  <h2>📊 채점 결과</h2>
+  <div class="exam-info">
+    <b>📋 시험:</b> finaltestGo1 최종1 (날카로운 변형) · 객관식 33문제 (66점 만점)
+  </div>
+  <div class="score-circle-wrap">
+    <div class="score-circle" id="circle"><span id="scoreVal">0</span><small id="scoreMax">/ 66점</small></div>
+    <div class="score-msg" id="scoreMsg"></div>
+  </div>
+  <div class="stats">
+    <div class="stat-box correct"><div class="label">정답</div><div class="value" id="cc">0</div></div>
+    <div class="stat-box wrong"><div class="label">오답</div><div class="value" id="wc">0</div></div>
+    <div class="stat-box"><div class="label">정답률</div><div class="value" id="pct">0%</div></div>
+  </div>
+  <div id="wrong-list"></div>
+</div>
+
+</div>
+
+<script>
+const Q=[
+{num:1,type:"topic-제목",answer:2,choices:["The Risk of Oversharing in Public Speeches","Personal Stories: A Key to Audience Bonding","How to Avoid Family Anecdotes on Stage","Why Logical Arguments Beat Emotional Appeals","The Decline of Storytelling in Modern Speeches"],explanation:"개인적 이야기가 청중과의 유대감 형성의 핵심"},
+{num:2,type:"topic-요지",answer:3,choices:["운동은 매일 정해진 시간에 해야 효과적이다.","좋은 습관은 강한 의지력만으로 충분히 형성된다.","끊기보다 유혹과 결합하여 새 습관을 만드는 것이 효과적이다.","오디오북 청취는 운동의 집중도와 효과를 높여준다.","헬스장 회원권은 사람의 행동 변화의 가장 큰 동기이다."],explanation:"temptation bundling — 나쁜 습관을 끊기보다 유혹과 결합"},
+{num:3,type:"topic-주장",answer:4,choices:["어린 시절의 식습관은 성인이 되면 바꿀 수 있다.","가공식품은 모든 연령대의 건강에 매우 해롭다.","통곡물 섭취가 영양 면에서 가장 좋은 선택이다.","반복 노출과 변화 의지로 성인도 입맛을 바꿀 수 있다.","적응력이 뛰어난 사람만이 식단을 빨리 바꿀 수 있다."],explanation:"신경가소성(neuroplasticity) + 반복 노출 + 변화 의지"},
+{num:4,type:"21-밑줄 의미",answer:3,choices:["에어컨 사용 자체를 잊게 만드는 첨단 기술","더운 지역 사람들의 향수를 자극하는 추억의 기술","축적된 전통적 건축 지혜를 망각하게 하는 기술","옛 건물을 보존하지 못하게 만드는 현대의 기술","에어컨 작동법을 잊게 만드는 결함 있는 기술"],explanation:"전통적 건축 지혜(thick walls/white roofs)를 잊게 함"},
+{num:5,type:"21-밑줄 의미",answer:5,choices:["통계가 사람들의 깊은 슬픔을 효과적으로 위로한다.","통계는 인간의 눈물을 사라지게 만든다.","통계는 인간의 사고보다 한층 우월한 분석 도구이다.","통계 작성자가 항상 객관적이어야 한다는 뜻이다.","통계는 숫자로 환원되어 고통과 감정이 제거된 형태이다."],explanation:"눈물(고통)이 닦여 없어진 인간 = 감정 제거된 데이터"},
+{num:6,type:"topic-제목",answer:1,choices:["Teaching: A Solution to the Illusion of Competence","The Dangers of Studying Quietly Alone in Silence","How Teaching Skills Build Genuine True Mastery","Why Group Study Sessions Always Eventually Fail","The Feynman Technique: A Brief Historical Overview"],explanation:"가르치기가 역량 착각(illusion of competence)의 해결책"},
+{num:7,type:"topic-주제",answer:2,choices:["the global decline of public transportation systems","contrasting walking attitudes in developing and developed regions","key benefits of treadmill exercise at home gyms","the central role of walking in developing and developed regions","economic policies to support public transit systems"],explanation:"개발도상국 (불가피한 부담) vs 선진국 (건강·자연) 대조"},
+{num:8,type:"29-어법",answer:4,choices:["ⓐ bears","ⓑ drinks","ⓒ soaks","ⓓ putting","ⓔ respond"],explanation:"putting → put (수동 분사구문 — 스폰지가 물에 놓이는 대상)"},
+{num:9,type:"★ 29-어법(수동태)",answer:4,choices:["ⓐ kick","ⓑ disappears","ⓒ talking","ⓓ requiring","ⓔ writes"],explanation:"requiring → required (수동: 문화 변화가 요구되는 대상)"},
+{num:10,type:"wrongword",answer:3,choices:["ⓐ spread","ⓑ peak","ⓒ increases","ⓓ disagree","ⓔ resilient"],explanation:"increases → decreases (16~17세 동조성 감소)"},
+{num:11,type:"wrongword",answer:4,choices:["ⓐ separating","ⓑ trade","ⓒ emancipated","ⓓ dependent","ⓔ powerful"],explanation:"dependent → independent (해방된 수는 셈 대상과 독립적)"},
+{num:12,type:"wrongword",answer:3,choices:["ⓐ better","ⓑ extinguishes","ⓒ added","ⓓ phones","ⓔ smaller"],explanation:"added → removed (less is more 흐름)"},
+{num:13,type:"31-빈칸 단어",answer:5,choices:["Decoration","Expanding","Streamline","Sharing","Simplifying"],explanation:"빈칸은 주어 자리(동명사 필요) + 간소화 의미 → ⑤ Simplifying"},
+{num:14,type:"blank-빈칸 문장",answer:2,choices:["reinforces passive memorization techniques","transforms surface familiarity into real mastery","encourages students to avoid group study","proves recognition equals understanding","replaces all traditional teaching methods"],explanation:"교사 마인드셋 → 표면적 친숙성을 진정한 숙달로 변환"},
+{num:15,type:"blank-빈칸 문장",answer:2,choices:["modern art has now lost its environmental focus","a huge amount of plastic enters the ocean daily","online shopping is the safest way for consumers","plastic packaging is necessary for keeping food fresh","companies always listen to the consumer's main demands"],explanation:"Plastic Tap = 바다로 쏟아지는 플라스틱"},
+{num:16,type:"blank-빈칸 문장",answer:4,choices:["Marine species easily adapt to highly acidic water","All shells will steadily become harder over time","Boom boxes will replace all traditional vintage records","Hard shells of many marine species will eventually dissolve","Carbon emissions have completely stopped affecting our oceans"],explanation:"산성화 → 단단한 껍데기 용해"},
+{num:17,type:"blank-빈칸 단어",answer:3,choices:["pollution","boycotts","recycling","regulations","taxation"],explanation:"산업계가 재활용(recycling)을 해결책으로 캠페인"},
+{num:18,type:"★ 36-순서",answer:4,choices:["(A)-(B)-(C)","(A)-(C)-(B)","(B)-(A)-(C)","(B)-(C)-(A)","(C)-(A)-(B)"],explanation:"옛 건물 소개(B) → 방향 설계(C) → 두꺼운 벽(A)"},
+{num:19,type:"★ 36-순서",answer:3,choices:["(A)-(B)-(C)","(A)-(C)-(B)","(B)-(C)-(A)","(B)-(A)-(C)","(C)-(B)-(A)"],explanation:"예시(B) → 도약 소개(C) → 설명(A)"},
+{num:20,type:"★ ins-삽입",answer:2,choices:["①","②","③","④","⑤"],explanation:"terrific news → But it's amazing news 자연 연결"},
+{num:21,type:"★ ins-삽입",answer:4,choices:["①","②","③","④","⑤"],explanation:"American dream → This dream came with a price → 환경 영향"},
+{num:22,type:"★ ins-삽입",answer:4,choices:["①","②","③","④","⑤"],explanation:"연구 설계(③) → 메커니즘(보기) → 결과(④)"},
+{num:23,type:"irr-무관",answer:5,choices:["①","②","③","④","⑤"],explanation:"⑤ 의류 브랜드는 환경 예술 흐름과 무관"},
+{num:24,type:"irr-무관",answer:3,choices:["①","②","③","④","⑤"],explanation:"③ 자전거 도로는 도보 이동 흐름과 무관"},
+{num:25,type:"sum-요약",answer:2,choices:["cure — strengthens","illusion — counters","benefit — accepts","feature — repeats","goal — denies"],explanation:"illusion of competence + 가르치기가 이 환상을 counters(반박)"},
+{num:26,type:"sum-요약",answer:1,choices:["delivers — encourage","ignores — discourage","creates — postpone","delivers — replace","rejects — promote"],explanation:"환경 예술이 메시지 전달 + 집단 행동 격려"},
+{num:27,type:"ex-mismatch",answer:5,choices:["Gary Graffman은 1928년 뉴욕에서 태어났다.","그는 7세에 Curtis 음악원에 입학했다.","1949년에 Leventritt Award를 수상했다.","1980년에 Curtis 음악원에 교수로 돌아왔다.","1970년대 후반에 양손 손가락 통제력을 모두 잃었다."],explanation:"오른손만 통제력 상실 — 양손이 아님"},
+{num:28,type:"ex-mismatch",answer:3,choices:["Von Wong의 작품은 환경 행동을 결집한다.","Turn Off the Plastic Tap은 사진 작품이다.","Kendler의 Forget Me Not은 마이크로 구성했다.","Kendler는 1년 동안 조개껍데기를 모았다.","Ching의 Homestead는 자연을 찬미하는 그림이다."],explanation:"Forget Me Not은 boom box + shells (마이크로 구성 X)"},
+{num:29,type:"★ g-passive 변환",answer:5,choices:["Statistical results manipulated in many ways by people.","Statistical results were manipulated in many different ways.","Statistical results can manipulate in many useful ways.","Statistical results manipulate by people in many ways.","Statistical results can be manipulated in many ways."],explanation:"can + be + p.p. (수동태 형식 정확)"},
+{num:30,type:"★ g-passive-id 식별",answer:1,choices:["The piece is officially titled \"Forget Me Not.\"","The boom box was covered various small shells.","The shells was collecting by Kendler for a year.","The ocean has been becoming more acidic by carbon.","His paintings are fulled with rich and warm tenderness."],explanation:"is titled (수동태 정상) / 나머지: ②with 누락 ③was→were ④by 부적절 ⑤fulled→filled (틀린 단어)"},
+{num:31,type:"★ 29-어법(수동태)",answer:4,choices:["ⓐ is","ⓑ rally","ⓒ must be","ⓓ making","ⓔ who"],explanation:"making → made (수동태 made of)"},
+{num:32,type:"topic-제목",answer:5,choices:["Recycling: The Final Solution to All Pollution Today","How World War II Quickly Cleaned the Global Environment","Sustainable Living Practices Before the Industrial Revolution","Consumer Power vs. Corporate Greed in Modern Era","Hidden History of Plastics: From Convenience to Crisis"],explanation:"숨겨진 플라스틱 역사 — 편리함에서 위기로"},
+{num:33,type:"topic-요지",answer:5,choices:["부모가 자녀의 모든 활동을 감독할 필요는 없다.","도시 정책은 가족 휴가보다 금전적 지원에 집중해야 한다.","통학 거리는 자녀의 회복력을 결정하는 지표이다.","부모 휴가 정책 만으로 양육 문제를 해결할 수 없다.","자녀 독립성을 키우려면 도시 구조 변화가 필요하다."],explanation:"under-parenting requires structural change"}
+];
+const CIRC=["①","②","③","④","⑤"];
+const state={ans:{}};
+
+function renderGrid(){
+  const grid=document.getElementById('grid');
+  grid.innerHTML=Q.map(q=>`
+    <div class="ans-cell" data-num="${q.num}">
+      <div class="num">${q.num}</div>
+      <div class="opts">
+        ${[1,2,3,4,5].map(c=>`<span class="opt" data-c="${c}" onclick="pick(${q.num},${c})">${CIRC[c-1]}</span>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+function pick(num,c){
+  state.ans[num]=c;
+  const cell=document.querySelector(`.ans-cell[data-num="${num}"]`);
+  cell.classList.add('answered');
+  cell.querySelectorAll('.opt').forEach(o=>o.classList.remove('selected'));
+  cell.querySelector(`.opt[data-c="${c}"]`).classList.add('selected');
+  updateProgress();
+}
+
+function updateProgress(){
+  const cnt=Object.keys(state.ans).length;
+  document.getElementById('cnt').textContent=cnt;
+  document.getElementById('bar').style.width=`${Math.round(cnt/33*100)}%`;
+}
+
+function grade(){
+  const unanswered=Q.filter(q=>!state.ans[q.num]);
+  if(unanswered.length>0){
+    if(!confirm(`아직 ${unanswered.length}문제를 풀지 않았습니다. 채점하시겠습니까?`)) return;
+  }
+  let score=0;const wrong=[];
+  Q.forEach(q=>{
+    const cell=document.querySelector(`.ans-cell[data-num="${q.num}"]`);
+    cell.classList.remove('wrong-result','correct-result');
+    if(state.ans[q.num]===q.answer){score+=2;cell.classList.add('correct-result');}
+    else{wrong.push(q);cell.classList.add('wrong-result');}
+  });
+
+  const max=66;
+  const pct=Math.round(score/max*100);
+  const cc=33-wrong.length;
+  const wc=wrong.length;
+
+  document.getElementById('scoreVal').textContent=score;
+  document.getElementById('scoreMax').textContent=`/ ${max}점`;
+  document.getElementById('cc').textContent=cc;
+  document.getElementById('wc').textContent=wc;
+  document.getElementById('pct').textContent=pct+'%';
+
+  const circle=document.getElementById('circle');
+  const msg=document.getElementById('scoreMsg');
+  circle.className='score-circle';
+  if(pct>=90){circle.classList.add('perfect');msg.innerHTML=`🎉 <b>EXCELLENT!</b> 정말 잘했어요!`;}
+  else if(pct>=70){circle.classList.add('great');msg.innerHTML=`👍 잘했어요! 틀린 ${wc}문제만 더 복습하면 완벽!`;}
+  else{circle.classList.add('retry');msg.innerHTML=`📚 ${wc}문제 오답을 꼼꼼히 복습한 후 다시 도전!`;}
+
+  const list=document.getElementById('wrong-list');
+  if(wc===0){
+    list.innerHTML=`<div class="all-correct">🏆 만점! 모든 객관식 문제 정답입니다.</div>`;
+  } else {
+    list.innerHTML=`<h2 style="margin-top:18px">✗ 틀린 문제 (${wc}개)</h2>`+
+      wrong.map(q=>{
+        const my=state.ans[q.num]?`${CIRC[state.ans[q.num]-1]} ${q.choices[state.ans[q.num]-1]}`:'(미응답)';
+        const right=`${CIRC[q.answer-1]} ${q.choices[q.answer-1]}`;
+        return `<div class="wrong-card">
+          <div class="wrong-header">
+            <div class="wrong-num">${q.num}</div>
+            <span class="wrong-type">${q.type}</span>
+            <span class="wrong-pts">2점</span>
+          </div>
+          <div class="my-pick">내 답: <b>${my}</b></div>
+          <div class="right-ans"><b>정답:</b> ${right}</div>
+          <div class="explanation"><b>해설:</b> ${q.explanation}</div>
+        </div>`;
+      }).join('');
+  }
+
+  document.getElementById('result').classList.remove('hidden');
+  document.getElementById('result').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function reset(){
+  if(!confirm('답안을 모두 초기화하시겠습니까?')) return;
+  state.ans={};
+  document.getElementById('result').classList.add('hidden');
+  document.querySelectorAll('.ans-cell').forEach(c=>{
+    c.classList.remove('answered','wrong-result','correct-result');
+    c.querySelectorAll('.opt').forEach(o=>o.classList.remove('selected'));
+  });
+  updateProgress();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+renderGrid();
+</script>
+</body>
+</html>
+
