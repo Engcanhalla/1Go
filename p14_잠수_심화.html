@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연습문제지 — 고스팅 — 설명 없는 연락 두절 (심화)</title>
+<style>
+body{margin:0;background:#e9e9e9;font-family:'Noto Sans KR','Malgun Gothic',sans-serif;}
+.toolbar{position:sticky;top:0;z-index:50;max-width:860px;margin:0 auto;padding:10px 14px;background:#fff;border-bottom:2px solid #3f8a83;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.toolbar button{font-family:inherit;font-size:13px;padding:7px 14px;cursor:pointer;border:1.5px solid #3f8a83;background:#fff;color:#2f6f69;border-radius:5px;font-weight:700;}
+.toolbar button.active{background:#3f8a83;color:#fff;}
+
+.ws{--ink:#1a1a1a;--soft:#444;--line:#1a1a1a;max-width:800px;margin:16px auto;background:#fff;color:var(--ink);
+  padding:26px 30px 40px;border:1px solid #ccc;font-family:'Noto Sans KR','Malgun Gothic',sans-serif;}
+.ws h1{font-size:21px;margin:0 0 6px;}
+.ws .meta{font-size:13.5px;color:var(--soft);margin-bottom:6px;}
+.ws .namebar{font-size:14px;margin:10px 0 18px;border:1px solid #999;border-radius:6px;padding:8px 12px;display:flex;gap:26px;}
+.ws .namebar span{border-bottom:1px solid #999;display:inline-block;min-width:120px;}
+.ws .passage{border:1.5px solid var(--line);border-radius:8px;padding:18px 22px 8px;}
+.ws-seg{display:flex;align-items:stretch;gap:0;}
+.ws-seg + .ws-seg{border-top:1.5px dashed #999;}
+.ws-seg-text{flex:1;min-width:0;padding:4px 18px 6px 0;}
+.ws .stag{display:inline-block;min-width:20px;text-align:center;font-size:12px;color:#999;border:1px solid #ccc;border-radius:4px;padding:1px 5px;margin-right:6px;vertical-align:middle;}
+.ws-sentence{font-size:16.5px;line-height:2.05;margin-bottom:4px;}
+.ws-tag{display:inline-block;font-size:12px;font-weight:800;border:1.5px solid var(--line);border-radius:4px;padding:1px 7px;margin-right:6px;vertical-align:middle;}
+.tag-svoc{background:#fff;}
+.interp-underline{border-bottom:2px dotted var(--ink);padding-bottom:1px;}
+.ws-blank{font-size:14px;color:#333;margin:2px 0 12px 26px;}
+.blank-fill{display:inline-block;border-bottom:1px dotted #666;min-width:220px;height:1px;vertical-align:middle;margin-left:2px;}
+.blank-fill.short{min-width:40px;}
+.blank-lines{display:block;margin-top:4px;}
+.blank-lines .ln{display:block;border-bottom:1px dotted #888;height:22px;}
+.para-box{width:190px;flex:0 0 190px;border-left:1.5px solid var(--line);padding:14px 12px;display:flex;flex-direction:column;gap:8px;background:#fbfbfb;}
+.para-range{font-size:13px;font-weight:700;color:#555;}
+.para-write .ln{display:block;border-bottom:1px dotted #888;height:24px;}
+.task-block{border-top:2px solid var(--line);margin-top:22px;padding-top:14px;}
+.task-title{font-size:15.5px;font-weight:800;margin-bottom:6px;}
+.task-instr{font-size:13.5px;color:var(--soft);margin-bottom:10px;line-height:1.6;}
+.kw-match{display:flex;gap:30px;margin-bottom:8px;}
+.kw-col{flex:1;display:flex;flex-direction:column;gap:14px;}
+.kw-chip{border:1.5px solid var(--line);border-radius:16px;padding:6px 14px;font-size:13.5px;}
+.kw-order-blank{font-size:12.5px;color:#555;margin-right:4px;}
+.kw-desc-block{background:#f6f6f6;border:1px dashed #999;border-radius:6px;padding:8px 12px;}
+.kw-desc-ans{font-size:13.5px;line-height:1.7;}
+.paraphrase-ko{font-size:14.5px;font-weight:700;background:#f6f6f6;border:1px dashed #999;border-radius:6px;padding:8px 12px;margin-bottom:8px;}
+.hint-box{font-size:13px;color:var(--soft);border:1px dashed #999;border-radius:6px;padding:6px 10px;margin-bottom:8px;}
+.gw-item{margin-bottom:16px;}
+.gw-hint{font-size:13.5px;margin-bottom:4px;color:var(--soft);}
+.gw-grammar-ans{font-size:13px;margin-bottom:4px;background:#f6f6f6;border:1px dashed #999;border-radius:6px;padding:4px 10px;display:inline-block;}
+.gw-ko{font-size:14.5px;font-weight:700;background:#f6f6f6;border:1px dashed #999;border-radius:6px;padding:6px 12px;margin-bottom:6px;}
+.ws .footnote{font-size:12.5px;color:#777;margin-top:18px;border-top:1px dashed #bbb;padding-top:8px;}
+.ws .ans{display:none;}
+.ws.answer-mode .ans{display:inline;color:#111;font-weight:700;}
+.ws.answer-mode .interp-blank .blank-fill,
+.ws.answer-mode .ws-blank .blank-fill.short{display:none;}
+.ws.answer-mode .blank-lines{display:none;}
+.ws.answer-mode .svoc-answer{display:block;}
+.ws.answer-mode .para-write{display:none;}
+.ws.answer-mode .para-ans{display:block;}
+.svoc-answer{background:#f6f6f6;border:1px dashed #999;border-radius:6px;padding:6px 10px;margin-left:0;}
+@media print{
+  .toolbar{display:none;}
+  body{background:#fff;}
+  .ws{border:none;margin:0;max-width:none;padding:14mm 14mm 10mm;}
+  .task-block{page-break-inside:avoid;}
+  .s-wrap{page-break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+<div class="toolbar"><button id="bStu" class="active" onclick="setAnswerMode(false)">학생용</button><button id="bAns" onclick="setAnswerMode(true)">정답 보기</button><button onclick="window.print()">🖨 인쇄 / PDF</button></div>
+<div class="ws" id="wsRoot">
+<h1>📝 연습문제지 — 심화</h1>
+<div class="meta">지문: <b>고스팅 — 설명 없는 연락 두절</b> · 대상 학년: <b>고1</b></div>
+<div class="namebar"><span>이름: <span></span></span><span>날짜: <span></span></span><span>점수: <span></span></span></div>
+<div class="task-instr" style="margin-bottom:14px;">① <b>점선 밑줄</b>이 있는 부분은 해당 부분만 우리말로 해석해 빈칸에 쓰시오. ② 오른쪽 칸에는 각 문단의 요지를 우리말로 쓰시오.</div>
+<div class="passage"><div class="ws-seg"><div class="ws-seg-text"><div class="s-wrap" data-idx="1"><div class="ws-sentence" data-idx="1"><span class="stag">1</span>First, it's just one text remains unanswered.</div></div><div class="s-wrap" data-idx="2"><div class="ws-sentence" data-idx="2"><span class="stag">2</span>Then, your calls go to voicemail.</div></div><div class="s-wrap" data-idx="3"><div class="ws-sentence" data-idx="3"><span class="stag">3</span>You may start to worry about your friend.</div></div><div class="s-wrap" data-idx="4"><div class="ws-sentence" data-idx="4"><span class="stag">4</span>Did something happen to your friend?</div></div><div class="s-wrap" data-idx="5"><div class="ws-sentence" data-idx="5"><span class="stag">5</span>Eventually, you get the answer through a social media update or a mutual friend.</div></div><div class="s-wrap" data-idx="6"><div class="ws-sentence" data-idx="6"><span class="stag">6</span>Your friend is alive and well.</div></div><div class="s-wrap" data-idx="7"><div class="ws-sentence" data-idx="7"><span class="stag">7</span>But they have just disappeared from your life.</div></div><div class="s-wrap" data-idx="8"><div class="ws-sentence" data-idx="8"><span class="stag">8</span>They are ghosting you.</div></div></div><div class="para-box"><div class="para-range">문장 1–8</div><div class="para-write"><span class="ln"></span><span class="ln"></span></div><div class="ans para-ans">예시 답안: 고스팅을 당하는 구체적 경험 묘사</div></div></div><div class="ws-seg"><div class="ws-seg-text"><div class="s-wrap" data-idx="9"><div class="ws-sentence" data-idx="9"><span class="stag">9</span>Ghosting means <span class="interp-underline">cutting off all communication without offering an explanation</span>, and the term has only recently entered the popular lexicon.</div><div class="ws-blank interp-blank">해석 ▸ ( <span class="ans">설명을 제공하지 않은 채 모든 연락을 끊어버리는 것</span><span class="blank-fill"></span> )</div></div><div class="s-wrap" data-idx="10"><div class="ws-sentence" data-idx="10"><span class="stag">10</span>It originated in the context of dating, but ghosting also occurs in friendships as well as in professional relationships.</div></div><div class="s-wrap" data-idx="11"><div class="ws-sentence" data-idx="11"><span class="stag">11</span>Ghosting is a strange behavior.</div></div><div class="s-wrap" data-idx="12"><div class="ws-sentence" data-idx="12"><span class="stag">12</span>Why would anyone treat <span class="interp-underline">someone they liked</span> so heartlessly or leave work without a simple note?</div><div class="ws-blank interp-blank">해석 ▸ ( <span class="ans">그들이 좋아하는 누군가 (관계대명사 that 생략)</span><span class="blank-fill"></span> )</div></div><div class="s-wrap" data-idx="13"><div class="ws-sentence" data-idx="13"><span class="stag">13</span>Psychologists have started to look into this behavior, and maybe you too have just started to notice that ghosting is a common strategy to end relationships.</div></div></div><div class="para-box"><div class="para-range">문장 9–13</div><div class="para-write"><span class="ln"></span><span class="ln"></span></div><div class="ans para-ans">예시 답안: 고스팅의 정의·확산과 이상함</div></div></div><div class="ws-seg"><div class="ws-seg-text"><div class="s-wrap" data-idx="14"><div class="ws-sentence" data-idx="14"><span class="stag">14</span>But why?</div></div><div class="s-wrap" data-idx="15"><div class="ws-sentence" data-idx="15"><span class="stag">15</span>Researchers say that technology has changed <span class="interp-underline">the way we interact with one another</span>.</div><div class="ws-blank interp-blank">해석 ▸ ( <span class="ans">우리가 서로 교류하는 방식 (관계사 생략 접촉절)</span><span class="blank-fill"></span> )</div></div><div class="s-wrap" data-idx="16"><div class="ws-sentence" data-idx="16"><span class="stag">16</span>They also add that people ignored each other for a long time, and that <span class="interp-underline">it's just a lot more obvious now thanks to social media and technology</span>.</div><div class="ws-blank interp-blank">해석 ▸ ( <span class="ans">소셜 미디어와 기술 덕분에 지금은 그것이 훨씬 더 눈에 띌 뿐이다</span><span class="blank-fill"></span> )</div></div></div><div class="para-box"><div class="para-range">문장 14–16</div><div class="para-write"><span class="ln"></span><span class="ln"></span></div><div class="ans para-ans">예시 답안: 기술 변화가 고스팅을 더 눈에 띄게 만들었다는 연구</div></div></div></div>
+<div class="task-block"><div class="task-title">① 핵심 키워드 연결</div><div class="task-instr">지문에는 다음 핵심 용어들이 등장한다: <b>ghosting</b> , <b>lexicon</b> , <b>communication</b> , <b>strategy</b> , <b>obvious</b>. 이 용어들이 지문 속에서 서로 어떻게 연결되어 있는지(관계·차이점 포함) 우리말로 서술하시오.</div><div class="ws-blank"><span class="blank-lines"><span class="ln"></span><span class="ln"></span><span class="ln"></span></span></div><div class="ans kw-desc-block">정답 예시 ▸ <div class="kw-desc-ans">• ghosting — 아무런 설명 없이 모든 연락을 일방적으로 끊어버리는 행동을 가리키는 용어이다.</div><div class="kw-desc-ans">• lexicon — 특정 언어나 집단에서 사용되는 단어의 전체 목록 또는 체계를 뜻한다.</div><div class="kw-desc-ans">• communication — 사람들 사이에서 정보나 감정을 주고받는 행위 전반을 가리킨다.</div><div class="kw-desc-ans">• strategy — 특정 목적을 달성하기 위해 의도적으로 선택하는 방법이나 계획을 뜻한다.</div><div class="kw-desc-ans">• obvious — 어떤 사실이나 현상이 숨겨지지 않고 분명하게 드러나 쉽게 알아볼 수 있는 상태이다.</div></div></div><div class="task-block"><div class="task-title">② 주제문 찾기</div><div class="task-instr">이 지문의 주제문 번호를 쓰고, 우리말로 해석하시오.</div><div class="ws-blank">주제문 번호 ▸ ( <span class="ans">11</span><span class="blank-fill short"></span> ) 번</div><div class="ws-blank"><span class="blank-lines"><span class="ln"></span><span class="ln"></span></span></div><div class="ans topic-ans">정답 해석 ▸ 고스팅은 이상한 행동이다.</div></div><div class="task-block"><div class="task-title">③ 문장 다시 쓰기 (영작)</div><div class="task-instr">다음 우리말은 이 지문의 13번 문장을 다른 영어 표현으로 바꾸어 쓴 문장을 해석한 것이다(주제문이 아님). 아래 힌트를 참고하여 영어로 쓰시오.</div><div class="paraphrase-ko">"심리학자들은 이 현상을 검토하기 시작했고, 아마 당신도 고스팅이 관계를 끝내는 광범위한 방법으로 쓰인다는 것을 깨닫게 되었을 것이다."</div><div class="hint-box">단어 힌트 (본문에 없는 표현) ▸ examine / phenomenon / widespread / serve as(~의 역할을 하다)</div><div class="ws-blank"><span class="blank-lines"><span class="ln"></span><span class="ln"></span></span></div><div class="ans paraphrase-ans">정답 예시 ▸ Psychologists have begun examining this phenomenon, and perhaps you have also come to realize that ghosting serves as a widespread method of ending relationships.</div></div><div class="task-block"><div class="task-title">④ 문법 활용 영작</div><div class="task-instr">본문에 사용된 문법을 활용하여, 본문과 무관한 아래 문장을 영어로 옮기시오.</div><div class="gw-item"><div class="gw-hint">(1) 힌트 ▸ 본문에 사용된 문법을 활용할 것</div><div class="ans gw-grammar-ans">(정답 모드 참고) 대상 문법: <b>동명사를 목적어로 취하는 동사(mean + 동명사): '~을 의미하다' 구조</b></div><div class="gw-ko">"리더십이란 단순히 명령을 내리는 것이 아니라 책임을 지는 것을 의미한다."</div><div class="hint-box">단어 힌트 (본문에 없는 단어, 원형 제시) ▸ leadership / responsibility / order</div><div class="ws-blank"><span class="blank-lines"><span class="ln"></span></span></div><div class="ans gw-ans">정답 예시 ▸ Leadership does not mean giving orders but means taking responsibility.</div></div><div class="gw-item"><div class="gw-hint">(2) 힌트 ▸ 본문에 사용된 문법을 활용할 것</div><div class="ans gw-grammar-ans">(정답 모드 참고) 대상 문법: <b>A as well as B 구조 + 현재완료(have + p.p.): 결과 강조</b></div><div class="gw-ko">"온라인 수업은 대학생뿐만 아니라 고등학생들의 학습 방식도 바꾸어 놓았다."</div><div class="hint-box">단어 힌트 (본문에 없는 단어, 원형 제시) ▸ habit / college</div><div class="ws-blank"><span class="blank-lines"><span class="ln"></span></span></div><div class="ans gw-ans">정답 예시 ▸ Online classes have changed the learning habits of high school students as well as college students.</div></div><div class="gw-item"><div class="gw-hint">(3) 힌트 ▸ 본문에 사용된 문법을 활용할 것</div><div class="ans gw-grammar-ans">(정답 모드 참고) 대상 문법: <b>the way (that) + 절(관계사 생략 접촉절) + notice that절(지각동사의 명사절 목적어) — 두 문법 결합</b></div><div class="gw-ko">"많은 부모들은 소셜 미디어가 자녀들이 친구들과 소통하는 방식을 완전히 바꾸어 놓았다는 것을 알아채기 시작했다."</div><div class="hint-box">단어 힌트 (본문에 없는 단어, 원형 제시) ▸ completely / communicate</div><div class="ws-blank"><span class="blank-lines"><span class="ln"></span><span class="ln"></span></span></div><div class="ans gw-ans">정답 예시 ▸ Many parents have started to notice that social media has completely changed the way their children communicate with friends.</div></div></div>
+<div class="footnote">본 문제지는 passage-analysis-map 분석 결과(고스팅 — 설명 없는 연락 두절)를 바탕으로 자동 생성되었습니다.</div>
+</div>
+<script>
+function setAnswerMode(on){document.getElementById("wsRoot").classList.toggle("answer-mode",on);document.getElementById("bStu").classList.toggle("active",!on);document.getElementById("bAns").classList.toggle("active",on);}
+</script>
+</body>
+</html>
