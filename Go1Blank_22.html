@@ -18,12 +18,12 @@ body{font-family:"Segoe UI","Malgun Gothic",sans-serif;background:#f5f6fa;color:
 .ref-box strong{display:block;font-size:12px;color:#e65100;margin-bottom:4px;}
 .passage{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,.06);line-height:2.5;font-size:16px;margin-bottom:16px;}
 .blank-select{display:inline-block;position:relative;}
-.blank-select select{appearance:none;-webkit-appearance:none;background:#e3f2fd;border:2px solid #90caf9;border-radius:6px;padding:4px 28px 4px 10px;font-size:15px;font-weight:600;color:#1565c0;cursor:pointer;min-width:100px;font-family:inherit;}
+.blank-select select{appearance:none;-webkit-appearance:none;background:#e3f2fd;border:2px solid #90caf9;border-radius:6px;padding:4px 28px 4px 10px;font-size:16px;font-weight:600;color:#1565c0;cursor:pointer;min-width:100px;font-family:inherit;}
 .blank-select select:focus{border-color:#1565c0;outline:none;box-shadow:0 0 0 3px rgba(21,101,192,.15);}
 .blank-select.correct select{background:#c8e6c9;border-color:#66bb6a;color:#2e7d32;}
 .blank-select.wrong select{background:#ffcdd2;border-color:#ef5350;color:#c62828;animation:shake .3s;}
 .blank-input{display:inline-block;}
-.blank-input input{background:#e3f2fd;border:2px solid #90caf9;border-radius:6px;padding:4px 10px;font-size:15px;font-weight:600;color:#1565c0;font-family:inherit;width:auto;min-width:80px;}
+.blank-input input{background:#e3f2fd;border:2px solid #90caf9;border-radius:6px;padding:4px 10px;font-size:16px;font-weight:600;color:#1565c0;font-family:inherit;width:auto;min-width:80px;max-width:100%;box-sizing:border-box;vertical-align:middle;}
 .blank-input input::placeholder{color:#90a4ae;font-weight:700;letter-spacing:2px;}
 .blank-input input:focus{border-color:#1565c0;outline:none;box-shadow:0 0 0 3px rgba(21,101,192,.15);}
 .blank-input.correct input{background:#c8e6c9;border-color:#66bb6a;color:#2e7d32;}
@@ -65,9 +65,9 @@ body{font-family:"Segoe UI","Malgun Gothic",sans-serif;background:#f5f6fa;color:
 .level-btn.locked{opacity:.4;cursor:not-allowed;}
 .level-btn.done::after{content:"\2713";margin-left:6px;}
 .student-info-box{background:#fff;border-radius:14px;padding:28px 24px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.06);max-width:360px;margin:0 auto;}
-.student-name-input{width:100%;padding:12px 14px;border:2px solid #c5cae9;border-radius:10px;font-size:15px;font-family:inherit;margin-bottom:12px;}
+.student-name-input{width:100%;padding:12px 14px;border:2px solid #c5cae9;border-radius:10px;font-size:16px;font-family:inherit;margin-bottom:12px;}
 .student-name-input:focus{border-color:#3949ab;outline:none;}
-.student-grade-select{width:100%;padding:11px 10px;border:1.5px solid #c5cae9;border-radius:10px;background:#fff;color:#222;font-size:15px;font-family:inherit;margin-bottom:16px;}
+.student-grade-select{width:100%;padding:11px 10px;border:1.5px solid #c5cae9;border-radius:10px;background:#fff;color:#222;font-size:16px;font-family:inherit;margin-bottom:16px;}
 .btn-start-app{width:100%;padding:13px;border:none;border-radius:10px;background:#3949ab;color:#fff;font-size:15px;font-weight:700;cursor:pointer;}
 .btn-start-app:disabled{opacity:.4;cursor:not-allowed;}
 .submit-box{background:#fff;border-radius:12px;padding:18px;text-align:center;margin:14px 0;box-shadow:0 2px 12px rgba(0,0,0,.06);}
@@ -84,7 +84,7 @@ body{font-family:"Segoe UI","Malgun Gothic",sans-serif;background:#f5f6fa;color:
 <div class="content" id="content"></div>
 <div class="action-bar" id="actionBar"></div>
 <script>
-var DATA={"sentences":[{"en":{"words":[{"t":"Suppose","c":"Suppose","tr":"","l":""},{"t":"you","c":"you","tr":"","l":""},{"t":"have","c":"have","tr":"","l":""},{"t":"been","c":"been","tr":"","l":""},{"t":"working","c":"working","tr":"","l":""},{"t":"on","c":"on","tr":"","l":""},{"t":"the","c":"the","tr":"","l":""},{"t":"solution","c":"solution","tr":"","l":""},{"t":"to","c":"to","tr":"","l":""},{"t":"a","c":"a","tr":"","l":""},{"t":"challenging","c":"challenging","tr":"","l":""},{"t":"technological","c":"technological","tr":"","l":""},{"t":"problem","c":"problem","tr":"","l":""},{"t":"for","c":"for","tr":"","l":""},{"t":"many","c":"many","tr":"","l":""},{"t":"years.","c":"years","tr":".","l":""}],"blanks":{"easy":[2],"medium":[5],"hard":[]},"choices":{"2":{"choices":["have been resting","have been worming","have been wording","have been working"],"correct":3},"5":{"choices":["on solution","to the solution","on the solution","for the solution"],"correct":2}},"mediumGroupSkip":[6,7],"easyGroupSkip":[3,4]},"kr":{"words":[{"t":"당신이","c":"당신이","tr":"","l":""},{"t":"많은","c":"많은","tr":"","l":""},{"t":"년들","c":"년들","tr":"","l":""},{"t":"동안","c":"동안","tr":"","l":""},{"t":"도전적인","c":"도전적인","tr":"","l":""},{"t":"기술적","c":"기술적","tr":"","l":""},{"t":"문제에","c":"문제에","tr":"","l":""},{"t":"대한","c":"대한","tr":"","l":""},{"t":"해결책에","c":"해결책에","tr":"","l":""},{"t":"대해","c":"대해","tr":"","l":""},{"t":"작업해오고","c":"작업해오고","tr":"","l":""},{"t":"있다고","c":"있다고","tr":"","l":""},{"t":"가정하라.","c":"가정하라","tr":".","l":""}],"blanks":{"easy":[],"medium":[],"hard":[]},"choices":{},"mediumGroupSkip":[],"easyGroupSkip":[]}},{"en":{"words":[{"t":"Let’s","c":"Let’s","tr":"","l":""},{"t":"also","c":"also","tr":"","l":""},{"t":"suppose","c":"suppose","tr":"","l":""},{"t":"that","c":"that","tr":"","l":""},{"t":"you","c":"you","tr":"","l":""},{"t":"have","c":"have","tr":"","l":""},{"t":"been","c":"been","tr":"","l":""},{"t":"paying","c":"paying","tr":"","l":""},{"t":"attention","c":"attention","tr":"","l":""},{"t":"to","c":"to","tr":"","l":""},{"t":"whatever","c":"whatever","tr":"","l":""},{"t":"else","c":"else","tr":"","l":""},{"t":"you","c":"you","tr":"","l":""},{"t":"have","c":"have","tr":"","l":""},{"t":"encountered","c":"encountered","tr":"","l":""},{"t":"that","c":"that","tr":"","l":""},{"t":"might","c":"might","tr":"","l":""},{"t":"be","c":"be","tr":"","l":""},{"t":"related","c":"related","tr":"","l":""},{"t":"to","c":"to","tr":"","l":""},{"t":"the","c":"the","tr":"","l":""},{"t":"problem.","c":"problem","tr":".","l":""}],"blanks":{"easy":[5,13],"medium":[9],"hard":[]},"choices":{"5":{"choices":["have been ignoring","have been paying attention","have been playing attention","have been paving attention"],"correct":1},"9":{"choices":["to what","for whatever","to whatever","to whichever"],"correct":2},"13":{"choices":["have avoided","have encountered","have encounted","have encounered"],"correct":1}},"mediumGroupSkip":[10],"easyGroupSkip":[6,7,8,14]},"kr":{"words":[{"t":"당신이","c":"당신이","tr":"","l":""},{"t":"문제와","c":"문제와","tr":"","l":""},{"t":"관련이","c":"관련이","tr":"","l":""},{"t":"있을","c":"있을","tr":"","l":""},{"t":"수","c":"수","tr":"","l":""},{"t":"있는","c":"있는","tr":"","l":""},{"t":"당신이","c":"당신이","tr":"","l":""},{"t":"마주쳐온","c":"마주쳐온","tr":"","l":""},{"t":"무엇이든","c":"무엇이든","tr":"","l":""},{"t":"간에","c":"간에","tr":"","l":""},{"t":"주의를","c":"주의를","tr":"","l":""},{"t":"기울여오고","c":"기울여오고","tr":"","l":""},{"t":"있다고","c":"있다고","tr":"","l":""},{"t":"또한","c":"또한","tr":"","l":""},{"t":"가정하자.","c":"가정하자","tr":".","l":""}],"blanks":{"easy":[],"medium":[],"hard":[]},"choices":{},"mediumGroupSkip":[],"easyGroupSkip":[]}},{"en":{"words":[{"t":"In","c":"In","tr":"","l":""},{"t":"that","c":"that","tr":"","l":""},{"t":"case,","c":"case","tr":",","l":""},{"t":"chances","c":"chances","tr":"","l":""},{"t":"are","c":"are","tr":"","l":""},{"t":"that","c":"that","tr":"","l":""},{"t":"creative","c":"creative","tr":"","l":""},{"t":"solutions","c":"solutions","tr":"","l":""},{"t":"to","c":"to","tr":"","l":""},{"t":"the","c":"the","tr":"","l":""},{"t":"problem","c":"problem","tr":"","l":""},{"t":"could","c":"could","tr":"","l":""},{"t":"suddenly","c":"suddenly","tr":"","l":""},{"t":"pop","c":"pop","tr":"","l":""},{"t":"up","c":"up","tr":"","l":""},{"t":"in","c":"in","tr":"","l":""},{"t":"your","c":"your","tr":"","l":""},{"t":"mind","c":"mind","tr":"","l":""},{"t":"when","c":"when","tr":"","l":""},{"t":"you","c":"you","tr":"","l":""},{"t":"are","c":"are","tr":"","l":""},{"t":"relaxed.","c":"relaxed","tr":".","l":""}],"blanks":{"easy":[3],"medium":[13,20],"hard":[]},"choices":{"3":{"choices":["chances aren't","chances are","changes are","chances are"],"correct":1},"13":{"choices":["pop up","popping up","to pop up","pops up"],"correct":0},"20":{"choices":["are relaxing","are relaxed","relax","have relaxed"],"correct":1}},"mediumGroupSkip":[14,21],"easyGroupSkip":[4]},"kr":{"words":[{"t":"그","c":"그","tr":"","l":""},{"t":"경우에,","c":"경우에","tr":",","l":""},{"t":"문제에","c":"문제에","tr":"","l":""},{"t":"대한","c":"대한","tr":"","l":""},{"t":"창의적인","c":"창의적인","tr":"","l":""},{"t":"해결책들이","c":"해결책들이","tr":"","l":""},{"t":"당신이","c":"당신이","tr":"","l":""},{"t":"이완되어","c":"이완되어","tr":"","l":""},{"t":"있을","c":"있을","tr":"","l":""},{"t":"때","c":"때","tr":"","l":""},{"t":"당신의","c":"당신의","tr":"","l":""},{"t":"마음속에","c":"마음속에","tr":"","l":""},{"t":"갑자기","c":"갑자기","tr":"","l":""},{"t":"튀어오를","c":"튀어오를","tr":"","l":""},{"t":"수","c":"수","tr":"","l":""},{"t":"있을","c":"있을","tr":"","l":""},{"t":"가능성들이","c":"가능성들이","tr":"","l":""},{"t":"있다.","c":"있다","tr":".","l":""}],"blanks":{"easy":[],"medium":[],"hard":[]},"choices":{},"mediumGroupSkip":[],"easyGroupSkip":[]}},{"en":{"words":[{"t":"Such","c":"Such","tr":"","l":""},{"t":"“eureka","c":"eureka","tr":"","l":"“"},{"t":"moments”","c":"moments","tr":"”","l":""},{"t":"(when","c":"when","tr":"","l":"("},{"t":"great","c":"great","tr":"","l":""},{"t":"insights","c":"insights","tr":"","l":""},{"t":"lead","c":"lead","tr":"","l":""},{"t":"to","c":"to","tr":"","l":""},{"t":"discovery","c":"discovery","tr":"","l":""},{"t":"or","c":"or","tr":"","l":""},{"t":"invention)","c":"invention","tr":")","l":""},{"t":"often","c":"often","tr":"","l":""},{"t":"take","c":"take","tr":"","l":""},{"t":"place","c":"place","tr":"","l":""},{"t":"at","c":"at","tr":"","l":""},{"t":"unexpected","c":"unexpected","tr":"","l":""},{"t":"times.","c":"times","tr":".","l":""}],"blanks":{"easy":[1,8,10],"medium":[12,15],"hard":[]},"choices":{"1":{"choices":["mundane moments","eureka monuments","eureba moments","eureka moments"],"correct":3},"8":{"choices":["concealment","discoverу","discovory","discovery"],"correct":3},"10":{"choices":["imitation","invension","invention","inventoin"],"correct":2},"12":{"choices":["takes place","taking place","take place","to take place"],"correct":2},"15":{"choices":["unexpecting times","unexpectedly times","unexpected times","unexpected time"],"correct":2}},"mediumGroupSkip":[13,16],"easyGroupSkip":[2]},"kr":{"words":[{"t":"그러한","c":"그러한","tr":"","l":""},{"t":"'유레카","c":"'유레카","tr":"","l":""},{"t":"순간들'(위대한","c":"순간들'(위대한","tr":"","l":""},{"t":"통찰들이","c":"통찰들이","tr":"","l":""},{"t":"발견","c":"발견","tr":"","l":""},{"t":"또는","c":"또는","tr":"","l":""},{"t":"발명으로","c":"발명으로","tr":"","l":""},{"t":"이어질","c":"이어질","tr":"","l":""},{"t":"때)은","c":"때)은","tr":"","l":""},{"t":"종종","c":"종종","tr":"","l":""},{"t":"예상치","c":"예상치","tr":"","l":""},{"t":"못한","c":"못한","tr":"","l":""},{"t":"시간들에","c":"시간들에","tr":"","l":""},{"t":"발생한다.","c":"발생한다","tr":".","l":""}],"blanks":{"easy":[],"medium":[],"hard":[]},"choices":{},"mediumGroupSkip":[],"easyGroupSkip":[]}},{"en":{"words":[{"t":"To","c":"To","tr":"","l":""},{"t":"enhance","c":"enhance","tr":"","l":""},{"t":"spontaneous","c":"spontaneous","tr":"","l":""},{"t":"creativity,","c":"creativity","tr":",","l":""},{"t":"therefore,","c":"therefore","tr":",","l":""},{"t":"one","c":"one","tr":"","l":""},{"t":"must","c":"must","tr":"","l":""},{"t":"pay","c":"pay","tr":"","l":""},{"t":"attention","c":"attention","tr":"","l":""},{"t":"to","c":"to","tr":"","l":""},{"t":"the","c":"the","tr":"","l":""},{"t":"things","c":"things","tr":"","l":""},{"t":"that","c":"that","tr":"","l":""},{"t":"could","c":"could","tr":"","l":""},{"t":"potentially","c":"potentially","tr":"","l":""},{"t":"lead","c":"lead","tr":"","l":""},{"t":"to","c":"to","tr":"","l":""},{"t":"valuable","c":"valuable","tr":"","l":""},{"t":"outcomes.","c":"outcomes","tr":".","l":""}],"blanks":{"easy":[2,7],"medium":[17],"hard":[]},"choices":{"2":{"choices":["deliberate creativity","spontanious creativity","spontaneous creativty","spontaneous creativity"],"correct":3},"7":{"choices":["ignore","pay attension to","pay atention to","pay attention to"],"correct":3},"17":{"choices":["valued outcomes","valuable outcomes","valuing outcomes","value outcomes"],"correct":1}},"mediumGroupSkip":[18],"easyGroupSkip":[3,8,9]},"kr":{"words":[{"t":"따라서,","c":"따라서","tr":",","l":""},{"t":"자발적인","c":"자발적인","tr":"","l":""},{"t":"창의성을","c":"창의성을","tr":"","l":""},{"t":"향상시키기","c":"향상시키기","tr":"","l":""},{"t":"위해,","c":"위해","tr":",","l":""},{"t":"하나는","c":"하나는","tr":"","l":""},{"t":"잠재적으로","c":"잠재적으로","tr":"","l":""},{"t":"가치","c":"가치","tr":"","l":""},{"t":"있는","c":"있는","tr":"","l":""},{"t":"결과들로","c":"결과들로","tr":"","l":""},{"t":"이어질","c":"이어질","tr":"","l":""},{"t":"수","c":"수","tr":"","l":""},{"t":"있는","c":"있는","tr":"","l":""},{"t":"것들에","c":"것들에","tr":"","l":""},{"t":"주의를","c":"주의를","tr":"","l":""},{"t":"기울여야","c":"기울여야","tr":"","l":""},{"t":"한다.","c":"한다","tr":".","l":""}],"blanks":{"easy":[],"medium":[],"hard":[]},"choices":{},"mediumGroupSkip":[],"easyGroupSkip":[]}},{"en":{"words":[{"t":"This","c":"This","tr":"","l":""},{"t":"does","c":"does","tr":"","l":""},{"t":"not","c":"not","tr":"","l":""},{"t":"mean","c":"mean","tr":"","l":""},{"t":"that","c":"that","tr":"","l":""},{"t":"you","c":"you","tr":"","l":""},{"t":"must","c":"must","tr":"","l":""},{"t":"narrow","c":"narrow","tr":"","l":""},{"t":"down","c":"down","tr":"","l":""},{"t":"your","c":"your","tr":"","l":""},{"t":"interest","c":"interest","tr":"","l":""},{"t":"to","c":"to","tr":"","l":""},{"t":"one","c":"one","tr":"","l":""},{"t":"specific","c":"specific","tr":"","l":""},{"t":"topic.","c":"topic","tr":".","l":""}],"blanks":{"easy":[7],"medium":[13],"hard":[]},"choices":{"7":{"choices":["broaden out","narraw down","narrow doun","narrow down"],"correct":3},"13":{"choices":["specifically topic","specific topic","specified topic","specific topics"],"correct":1}},"mediumGroupSkip":[14],"easyGroupSkip":[8]},"kr":{"words":[{"t":"이것은","c":"이것은","tr":"","l":""},{"t":"당신이","c":"당신이","tr":"","l":""},{"t":"하나의","c":"하나의","tr":"","l":""},{"t":"특정한","c":"특정한","tr":"","l":""},{"t":"주제로","c":"주제로","tr":"","l":""},{"t":"당신의","c":"당신의","tr":"","l":""},{"t":"관심을","c":"관심을","tr":"","l":""},{"t":"좁혀야","c":"좁혀야","tr":"","l":""},{"t":"한다는","c":"한다는","tr":"","l":""},{"t":"것을","c":"것을","tr":"","l":""},{"t":"의미하지","c":"의미하지","tr":"","l":""},{"t":"않는다.","c":"않는다","tr":".","l":""}],"blanks":{"easy":[],"medium":[],"hard":[]},"choices":{},"mediumGroupSkip":[],"easyGroupSkip":[]}},{"en":{"words":[{"t":"On","c":"On","tr":"","l":""},{"t":"the","c":"the","tr":"","l":""},{"t":"contrary,","c":"contrary","tr":",","l":""},{"t":"breadth","c":"breadth","tr":"","l":""},{"t":"of","c":"of","tr":"","l":""},{"t":"experience","c":"experience","tr":"","l":""},{"t":"is","c":"is","tr":"","l":""},{"t":"the","c":"the","tr":"","l":""},{"t":"key","c":"key","tr":"","l":""},{"t":"to","c":"to","tr":"","l":""},{"t":"creativity.","c":"creativity","tr":".","l":""}],"blanks":{"easy":[3,8],"medium":[0],"hard":[]},"choices":{"0":{"choices":["On the contrary","On the contrast","In the contrary","On contrary"],"correct":0},"3":{"choices":["narrowness","breath","breadth","bredth"],"correct":2},"8":{"choices":["barrier to","key to","kee to","kay to"],"correct":1}},"mediumGroupSkip":[1,2],"easyGroupSkip":[9]},"kr":{"words":[{"t":"반대로,","c":"반대로","tr":",","l":""},{"t":"경험의","c":"경험의","tr":"","l":""},{"t":"넓이는","c":"넓이는","tr":"","l":""},{"t":"창의성에","c":"창의성에","tr":"","l":""},{"t":"대한","c":"대한","tr":"","l":""},{"t":"열쇠이다.","c":"열쇠이다","tr":".","l":""}],"blanks":{"easy":[],"medium":[],"hard":[]},"choices":{},"mediumGroupSkip":[],"easyGroupSkip":[]}},{"en":{"words":[{"t":"If","c":"If","tr":"","l":""},{"t":"your","c":"your","tr":"","l":""},{"t":"experience","c":"experience","tr":"","l":""},{"t":"is","c":"is","tr":"","l":""},{"t":"limited","c":"limited","tr":"","l":""},{"t":"to","c":"to","tr":"","l":""},{"t":"a","c":"a","tr":"","l":""},{"t":"narrow","c":"narrow","tr":"","l":""},{"t":"range","c":"range","tr":"","l":""},{"t":"of","c":"of","tr":"","l":""},{"t":"topics,","c":"topics","tr":",","l":""},{"t":"then","c":"then","tr":"","l":""},{"t":"the","c":"the","tr":"","l":""},{"t":"scope","c":"scope","tr":"","l":""},{"t":"of","c":"of","tr":"","l":""},{"t":"your","c":"your","tr":"","l":""},{"t":"imagination","c":"imagination","tr":"","l":""},{"t":"will","c":"will","tr":"","l":""},{"t":"likewise","c":"likewise","tr":"","l":""},{"t":"be","c":"be","tr":"","l":""},{"t":"narrow,","c":"narrow","tr":",","l":""},{"t":"which","c":"which","tr":"","l":""},{"t":"would","c":"would","tr":"","l":""},{"t":"be","c":"be","tr":"","l":""},{"t":"harmful","c":"harmful","tr":"","l":""},{"t":"to","c":"to","tr":"","l":""},{"t":"creativity.","c":"creativity","tr":".","l":""}],"blanks":{"easy":[7,13,20,24],"medium":[25],"hard":[]},"choices":{"7":{"choices":["narrow range","wide range","narroe range","narrow rnage"],"correct":0},"13":{"choices":["limitation","scope","scop","scobe"],"correct":1},"20":{"choices":["broad","narrow","narraw","norrow"],"correct":1},"24":{"choices":["beneficial","harmfull","harmufl","harmful"],"correct":3},"25":{"choices":["to creative","to creativity","for creativity","to creatively"],"correct":1}},"mediumGroupSkip":[26],"easyGroupSkip":[8]},"kr":{"words":[{"t":"만약","c":"만약","tr":"","l":""},{"t":"당신의","c":"당신의","tr":"","l":""},{"t":"경험이","c":"경험이","tr":"","l":""},{"t":"주제들의","c":"주제들의","tr":"","l":""},{"t":"좁은","c":"좁은","tr":"","l":""},{"t":"범위에","c":"범위에","tr":"","l":""},{"t":"제한된다면,","c":"제한된다면","tr":",","l":""},{"t":"그러면","c":"그러면","tr":"","l":""},{"t":"당신의","c":"당신의","tr":"","l":""},{"t":"상상력의","c":"상상력의","tr":"","l":""},{"t":"범위는","c":"범위는","tr":"","l":""},{"t":"마찬가지로","c":"마찬가지로","tr":"","l":""},{"t":"좁을","c":"좁을","tr":"","l":""},{"t":"것이고,","c":"것이고","tr":",","l":""},{"t":"그것은","c":"그것은","tr":"","l":""},{"t":"창의성에","c":"창의성에","tr":"","l":""},{"t":"해로울","c":"해로울","tr":"","l":""},{"t":"것이다.","c":"것이다","tr":".","l":""}],"blanks":{"easy":[],"medium":[],"hard":[]},"choices":{},"mediumGroupSkip":[],"easyGroupSkip":[]}}],"thresholds":{"en":{"easy":90,"medium":90,"hard":80},"kr":{"easy":80,"medium":80,"hard":80}},"includeKR":false,"title":"Go1Blank_22","sheetUrl":"https://script.google.com/macros/s/AKfycbxmFjMCPdfk7wNNREKnnvDnmtWjJ2n74titBUtUMtVzmbSjbcc3_LxRJ7YS4Fz-Dis/exec","unlockAll":true};
+var DATA={"sentences":[{"en":{"words":[{"t":"Suppose","c":"Suppose","tr":"","l":""},{"t":"you","c":"you","tr":"","l":""},{"t":"have","c":"have","tr":"","l":""},{"t":"been","c":"been","tr":"","l":""},{"t":"working","c":"working","tr":"","l":""},{"t":"on","c":"on","tr":"","l":""},{"t":"the","c":"the","tr":"","l":""},{"t":"solution","c":"solution","tr":"","l":""},{"t":"to","c":"to","tr":"","l":""},{"t":"a","c":"a","tr":"","l":""},{"t":"challenging","c":"challenging","tr":"","l":""},{"t":"technological","c":"technological","tr":"","l":""},{"t":"problem","c":"problem","tr":"","l":""},{"t":"for","c":"for","tr":"","l":""},{"t":"many","c":"many","tr":"","l":""},{"t":"years.","c":"years","tr":".","l":""}],"blanks":{"easy":[2],"medium":[5],"hard":[2]},"choices":{"2":{"choices":["have been working on the solution","","",""],"correct":0},"5":{"choices":["on solution","to the solution","on the solution","for the solution"],"correct":2}},"mediumGroupSkip":[6,7],"easyGroupSkip":[3,4],"hardGroupSkip":[3,4,5,6,7]},"kr":{"words":[{"t":"당신이","c":"당신이","tr":"","l":""},{"t":"많은","c":"많은","tr":"","l":""},{"t":"년들","c":"년들","tr":"","l":""},{"t":"동안","c":"동안","tr":"","l":""},{"t":"도전적인","c":"도전적인","tr":"","l":""},{"t":"기술적","c":"기술적","tr":"","l":""},{"t":"문제에","c":"문제에","tr":"","l":""},{"t":"대한","c":"대한","tr":"","l":""},{"t":"해결책에","c":"해결책에","tr":"","l":""},{"t":"대해","c":"대해","tr":"","l":""},{"t":"작업해오고","c":"작업해오고","tr":"","l":""},{"t":"있다고","c":"있다고","tr":"","l":""},{"t":"가정하라.","c":"가정하라","tr":".","l":""}],"blanks":{"easy":[],"medium":[],"hard":[]},"choices":{},"mediumGroupSkip":[],"easyGroupSkip":[],"hardGroupSkip":[]}},{"en":{"words":[{"t":"Let’s","c":"Let’s","tr":"","l":""},{"t":"also","c":"also","tr":"","l":""},{"t":"suppose","c":"suppose","tr":"","l":""},{"t":"that","c":"that","tr":"","l":""},{"t":"you","c":"you","tr":"","l":""},{"t":"have","c":"have","tr":"","l":""},{"t":"been","c":"been","tr":"","l":""},{"t":"paying","c":"paying","tr":"","l":""},{"t":"attention","c":"attention","tr":"","l":""},{"t":"to","c":"to","tr":"","l":""},{"t":"whatever","c":"whatever","tr":"","l":""},{"t":"else","c":"else","tr":"","l":""},{"t":"you","c":"you","tr":"","l":""},{"t":"have","c":"have","tr":"","l":""},{"t":"encountered","c":"encountered","tr":"","l":""},{"t":"that","c":"that","tr":"","l":""},{"t":"might","c":"might","tr":"","l":""},{"t":"be","c":"be","tr":"","l":""},{"t":"related","c":"related","tr":"","l":""},{"t":"to","c":"to","tr":"","l":""},{"t":"the","c":"the","tr":"","l":""},{"t":"problem.","c":"problem","tr":".","l":""}],"blanks":{"easy":[5,13],"medium":[9],"hard":[5,13]},"choices":{"5":{"choices":["have been paying attention to whatever","","",""],"correct":0},"9":{"choices":["to what","for whatever","to whatever","to whichever"],"correct":2},"13":{"choices":["have encountered","","",""],"correct":0}},"mediumGroupSkip":[10],"easyGroupSkip":[6,7,8,14],"hardGroupSkip":[6,7,8,9,10,14]},"kr":{"words":[{"t":"당신이","c":"당신이","tr":"","l":""},{"t":"문제와","c":"문제와","tr":"","l":""},{"t":"관련이","c":"관련이","tr":"","l":""},{"t":"있을","c":"있을","tr":"","l":""},{"t":"수","c":"수","tr":"","l":""},{"t":"있는","c":"있는","tr":"","l":""},{"t":"당신이","c":"당신이","tr":"","l":""},{"t":"마주쳐온","c":"마주쳐온","tr":"","l":""},{"t":"무엇이든","c":"무엇이든","tr":"","l":""},{"t":"간에","c":"간에","tr":"","l":""},{"t":"주의를","c":"주의를","tr":"","l":""},{"t":"기울여오고","c":"기울여오고","tr":"","l":""},{"t":"있다고","c":"있다고","tr":"","l":""},{"t":"또한","c":"또한","tr":"","l":""},{"t":"가정하자.","c":"가정하자","tr":".","l":""}],"blanks":{"easy":[],"medium":[],"hard":[]},"choices":{},"mediumGroupSkip":[],"easyGroupSkip":[],"hardGroupSkip":[]}},{"en":{"words":[{"t":"In","c":"In","tr":"","l":""},{"t":"that","c":"that","tr":"","l":""},{"t":"case,","c":"case","tr":",","l":""},{"t":"chances","c":"chances","tr":"","l":""},{"t":"are","c":"are","tr":"","l":""},{"t":"that","c":"that","tr":"","l":""},{"t":"creative","c":"creative","tr":"","l":""},{"t":"solutions","c":"solutions","tr":"","l":""},{"t":"to","c":"to","tr":"","l":""},{"t":"the","c":"the","tr":"","l":""},{"t":"problem","c":"problem","tr":"","l":""},{"t":"could","c":"could","tr":"","l":""},{"t":"suddenly","c":"suddenly","tr":"","l":""},{"t":"pop","c":"pop","tr":"","l":""},{"t":"up","c":"up","tr":"","l":""},{"t":"in","c":"in","tr":"","l":""},{"t":"your","c":"your","tr":"","l":""},{"t":"mind","c":"mind","tr":"","l":""},{"t":"when","c":"when","tr":"","l":""},{"t":"you","c":"you","tr":"","l":""},{"t":"are","c":"are","tr":"","l":""},{"t":"relaxed.","c":"relaxed","tr":".","l":""}],"blanks":{"easy":[3],"medium":[13,20],"hard":[3,13,20]},"choices":{"3":{"choices":["chances are","","",""],"correct":0},"13":{"choices":["pop up","","",""],"correct":0},"20":{"choices":["are relaxed","","",""],"correct":0}},"mediumGroupSkip":[14,21],"easyGroupSkip":[4],"hardGroupSkip":[4,14,21]},"kr":{"words":[{"t":"그","c":"그","tr":"","l":""},{"t":"경우에,","c":"경우에","tr":",","l":""},{"t":"문제에","c":"문제에","tr":"","l":""},{"t":"대한","c":"대한","tr":"","l":""},{"t":"창의적인","c":"창의적인","tr":"","l":""},{"t":"해결책들이","c":"해결책들이","tr":"","l":""},{"t":"당신이","c":"당신이","tr":"","l":""},{"t":"이완되어","c":"이완되어","tr":"","l":""},{"t":"있을","c":"있을","tr":"","l":""},{"t":"때","c":"때","tr":"","l":""},{"t":"당신의","c":"당신의","tr":"","l":""},{"t":"마음속에","c":"마음속에","tr":"","l":""},{"t":"갑자기","c":"갑자기","tr":"","l":""},{"t":"튀어오를","c":"튀어오를","tr":"","l":""},{"t":"수","c":"수","tr":"","l":""},{"t":"있을","c":"있을","tr":"","l":""},{"t":"가능성들이","c":"가능성들이","tr":"","l":""},{"t":"있다.","c":"있다","tr":".","l":""}],"blanks":{"easy":[],"medium":[],"hard":[]},"choices":{},"mediumGroupSkip":[],"easyGroupSkip":[],"hardGroupSkip":[]}},{"en":{"words":[{"t":"Such","c":"Such","tr":"","l":""},{"t":"“eureka","c":"eureka","tr":"","l":"“"},{"t":"moments”","c":"moments","tr":"”","l":""},{"t":"(when","c":"when","tr":"","l":"("},{"t":"great","c":"great","tr":"","l":""},{"t":"insights","c":"insights","tr":"","l":""},{"t":"lead","c":"lead","tr":"","l":""},{"t":"to","c":"to","tr":"","l":""},{"t":"discovery","c":"discovery","tr":"","l":""},{"t":"or","c":"or","tr":"","l":""},{"t":"invention)","c":"invention","tr":")","l":""},{"t":"often","c":"often","tr":"","l":""},{"t":"take","c":"take","tr":"","l":""},{"t":"place","c":"place","tr":"","l":""},{"t":"at","c":"at","tr":"","l":""},{"t":"unexpected","c":"unexpected","tr":"","l":""},{"t":"times.","c":"times","tr":".","l":""}],"blanks":{"easy":[1,8,10],"medium":[12,15],"hard":[1,8,10,12,15]},"choices":{"1":{"choices":["eureka moments","","",""],"correct":0},"8":{"choices":["discovery","","",""],"correct":0},"10":{"choices":["invention","","",""],"correct":0},"12":{"choices":["take place","","",""],"correct":0},"15":{"choices":["unexpected times","","",""],"correct":0}},"mediumGroupSkip":[13,16],"easyGroupSkip":[2],"hardGroupSkip":[2,13,16]},"kr":{"words":[{"t":"그러한","c":"그러한","tr":"","l":""},{"t":"'유레카","c":"'유레카","tr":"","l":""},{"t":"순간들'(위대한","c":"순간들'(위대한","tr":"","l":""},{"t":"통찰들이","c":"통찰들이","tr":"","l":""},{"t":"발견","c":"발견","tr":"","l":""},{"t":"또는","c":"또는","tr":"","l":""},{"t":"발명으로","c":"발명으로","tr":"","l":""},{"t":"이어질","c":"이어질","tr":"","l":""},{"t":"때)은","c":"때)은","tr":"","l":""},{"t":"종종","c":"종종","tr":"","l":""},{"t":"예상치","c":"예상치","tr":"","l":""},{"t":"못한","c":"못한","tr":"","l":""},{"t":"시간들에","c":"시간들에","tr":"","l":""},{"t":"발생한다.","c":"발생한다","tr":".","l":""}],"blanks":{"easy":[],"medium":[],"hard":[]},"choices":{},"mediumGroupSkip":[],"easyGroupSkip":[],"hardGroupSkip":[]}},{"en":{"words":[{"t":"To","c":"To","tr":"","l":""},{"t":"enhance","c":"enhance","tr":"","l":""},{"t":"spontaneous","c":"spontaneous","tr":"","l":""},{"t":"creativity,","c":"creativity","tr":",","l":""},{"t":"therefore,","c":"therefore","tr":",","l":""},{"t":"one","c":"one","tr":"","l":""},{"t":"must","c":"must","tr":"","l":""},{"t":"pay","c":"pay","tr":"","l":""},{"t":"attention","c":"attention","tr":"","l":""},{"t":"to","c":"to","tr":"","l":""},{"t":"the","c":"the","tr":"","l":""},{"t":"things","c":"things","tr":"","l":""},{"t":"that","c":"that","tr":"","l":""},{"t":"could","c":"could","tr":"","l":""},{"t":"potentially","c":"potentially","tr":"","l":""},{"t":"lead","c":"lead","tr":"","l":""},{"t":"to","c":"to","tr":"","l":""},{"t":"valuable","c":"valuable","tr":"","l":""},{"t":"outcomes.","c":"outcomes","tr":".","l":""}],"blanks":{"easy":[2,7],"medium":[17],"hard":[2,7,17]},"choices":{"2":{"choices":["spontaneous creativity","","",""],"correct":0},"7":{"choices":["pay attention to","","",""],"correct":0},"17":{"choices":["valuable outcomes","","",""],"correct":0}},"mediumGroupSkip":[18],"easyGroupSkip":[3,8,9],"hardGroupSkip":[3,8,9,18]},"kr":{"words":[{"t":"따라서,","c":"따라서","tr":",","l":""},{"t":"불쑥","c":"불쑥","tr":"","l":""},{"t":"떠오르는","c":"떠오르는","tr":"","l":""},{"t":"창의성을","c":"창의성을","tr":"","l":""},{"t":"향상시키기","c":"향상시키기","tr":"","l":""},{"t":"위해,","c":"위해","tr":",","l":""},{"t":"사람은","c":"사람은","tr":"","l":""},{"t":"잠재적으로","c":"잠재적으로","tr":"","l":""},{"t":"가치","c":"가치","tr":"","l":""},{"t":"있는","c":"있는","tr":"","l":""},{"t":"결과들로","c":"결과들로","tr":"","l":""},{"t":"이어질","c":"이어질","tr":"","l":""},{"t":"수","c":"수","tr":"","l":""},{"t":"있는","c":"있는","tr":"","l":""},{"t":"것들에","c":"것들에","tr":"","l":""},{"t":"주의를","c":"주의를","tr":"","l":""},{"t":"기울여야","c":"기울여야","tr":"","l":""},{"t":"한다.","c":"한다","tr":".","l":""}],"blanks":{"easy":[],"medium":[],"hard":[]},"choices":{},"mediumGroupSkip":[],"easyGroupSkip":[],"hardGroupSkip":[]}},{"en":{"words":[{"t":"This","c":"This","tr":"","l":""},{"t":"does","c":"does","tr":"","l":""},{"t":"not","c":"not","tr":"","l":""},{"t":"mean","c":"mean","tr":"","l":""},{"t":"that","c":"that","tr":"","l":""},{"t":"you","c":"you","tr":"","l":""},{"t":"must","c":"must","tr":"","l":""},{"t":"narrow","c":"narrow","tr":"","l":""},{"t":"down","c":"down","tr":"","l":""},{"t":"your","c":"your","tr":"","l":""},{"t":"interest","c":"interest","tr":"","l":""},{"t":"to","c":"to","tr":"","l":""},{"t":"one","c":"one","tr":"","l":""},{"t":"specific","c":"specific","tr":"","l":""},{"t":"topic.","c":"topic","tr":".","l":""}],"blanks":{"easy":[7],"medium":[13],"hard":[7,13]},"choices":{"7":{"choices":["narrow down","","",""],"correct":0},"13":{"choices":["specific topic","","",""],"correct":0}},"mediumGroupSkip":[14],"easyGroupSkip":[8],"hardGroupSkip":[8,14]},"kr":{"words":[{"t":"이것은","c":"이것은","tr":"","l":""},{"t":"당신이","c":"당신이","tr":"","l":""},{"t":"하나의","c":"하나의","tr":"","l":""},{"t":"특정한","c":"특정한","tr":"","l":""},{"t":"주제로","c":"주제로","tr":"","l":""},{"t":"당신의","c":"당신의","tr":"","l":""},{"t":"관심을","c":"관심을","tr":"","l":""},{"t":"좁혀야","c":"좁혀야","tr":"","l":""},{"t":"한다는","c":"한다는","tr":"","l":""},{"t":"것을","c":"것을","tr":"","l":""},{"t":"의미하지","c":"의미하지","tr":"","l":""},{"t":"않는다.","c":"않는다","tr":".","l":""}],"blanks":{"easy":[],"medium":[],"hard":[]},"choices":{},"mediumGroupSkip":[],"easyGroupSkip":[],"hardGroupSkip":[]}},{"en":{"words":[{"t":"On","c":"On","tr":"","l":""},{"t":"the","c":"the","tr":"","l":""},{"t":"contrary,","c":"contrary","tr":",","l":""},{"t":"breadth","c":"breadth","tr":"","l":""},{"t":"of","c":"of","tr":"","l":""},{"t":"experience","c":"experience","tr":"","l":""},{"t":"is","c":"is","tr":"","l":""},{"t":"the","c":"the","tr":"","l":""},{"t":"key","c":"key","tr":"","l":""},{"t":"to","c":"to","tr":"","l":""},{"t":"creativity.","c":"creativity","tr":".","l":""}],"blanks":{"easy":[3,8],"medium":[0],"hard":[0,8]},"choices":{"0":{"choices":["On the contrary breadth","","",""],"correct":0},"3":{"choices":["narrowness","breath","breadth","bredth"],"correct":2},"8":{"choices":["key to","","",""],"correct":0}},"mediumGroupSkip":[1,2],"easyGroupSkip":[9],"hardGroupSkip":[1,2,3,9]},"kr":{"words":[{"t":"반대로,","c":"반대로","tr":",","l":""},{"t":"경험의","c":"경험의","tr":"","l":""},{"t":"넓이는","c":"넓이는","tr":"","l":""},{"t":"창의성에","c":"창의성에","tr":"","l":""},{"t":"대한","c":"대한","tr":"","l":""},{"t":"열쇠이다.","c":"열쇠이다","tr":".","l":""}],"blanks":{"easy":[],"medium":[],"hard":[]},"choices":{},"mediumGroupSkip":[],"easyGroupSkip":[],"hardGroupSkip":[]}},{"en":{"words":[{"t":"If","c":"If","tr":"","l":""},{"t":"your","c":"your","tr":"","l":""},{"t":"experience","c":"experience","tr":"","l":""},{"t":"is","c":"is","tr":"","l":""},{"t":"limited","c":"limited","tr":"","l":""},{"t":"to","c":"to","tr":"","l":""},{"t":"a","c":"a","tr":"","l":""},{"t":"narrow","c":"narrow","tr":"","l":""},{"t":"range","c":"range","tr":"","l":""},{"t":"of","c":"of","tr":"","l":""},{"t":"topics,","c":"topics","tr":",","l":""},{"t":"then","c":"then","tr":"","l":""},{"t":"the","c":"the","tr":"","l":""},{"t":"scope","c":"scope","tr":"","l":""},{"t":"of","c":"of","tr":"","l":""},{"t":"your","c":"your","tr":"","l":""},{"t":"imagination","c":"imagination","tr":"","l":""},{"t":"will","c":"will","tr":"","l":""},{"t":"likewise","c":"likewise","tr":"","l":""},{"t":"be","c":"be","tr":"","l":""},{"t":"narrow,","c":"narrow","tr":",","l":""},{"t":"which","c":"which","tr":"","l":""},{"t":"would","c":"would","tr":"","l":""},{"t":"be","c":"be","tr":"","l":""},{"t":"harmful","c":"harmful","tr":"","l":""},{"t":"to","c":"to","tr":"","l":""},{"t":"creativity.","c":"creativity","tr":".","l":""}],"blanks":{"easy":[7,13,20,24],"medium":[25],"hard":[7,13,20,24]},"choices":{"7":{"choices":["narrow range","","",""],"correct":0},"13":{"choices":["scope","","",""],"correct":0},"20":{"choices":["narrow","","",""],"correct":0},"24":{"choices":["harmful to creativity","","",""],"correct":0},"25":{"choices":["to creative","to creativity","for creativity","to creatively"],"correct":1}},"mediumGroupSkip":[26],"easyGroupSkip":[8],"hardGroupSkip":[8,25,26]},"kr":{"words":[{"t":"만약","c":"만약","tr":"","l":""},{"t":"당신의","c":"당신의","tr":"","l":""},{"t":"경험이","c":"경험이","tr":"","l":""},{"t":"주제들의","c":"주제들의","tr":"","l":""},{"t":"좁은","c":"좁은","tr":"","l":""},{"t":"범위에","c":"범위에","tr":"","l":""},{"t":"제한된다면,","c":"제한된다면","tr":",","l":""},{"t":"그러면","c":"그러면","tr":"","l":""},{"t":"당신의","c":"당신의","tr":"","l":""},{"t":"상상력의","c":"상상력의","tr":"","l":""},{"t":"범위는","c":"범위는","tr":"","l":""},{"t":"마찬가지로","c":"마찬가지로","tr":"","l":""},{"t":"좁을","c":"좁을","tr":"","l":""},{"t":"것이고,","c":"것이고","tr":",","l":""},{"t":"그것은","c":"그것은","tr":"","l":""},{"t":"창의성에","c":"창의성에","tr":"","l":""},{"t":"해로울","c":"해로울","tr":"","l":""},{"t":"것이다.","c":"것이다","tr":".","l":""}],"blanks":{"easy":[],"medium":[],"hard":[]},"choices":{},"mediumGroupSkip":[],"easyGroupSkip":[],"hardGroupSkip":[]}}],"thresholds":{"en":{"easy":90,"medium":90,"hard":80},"kr":{"easy":80,"medium":80,"hard":80}},"includeKR":false,"title":"Go1Blank_22","sheetUrl":"https://script.google.com/macros/s/AKfycbxmFjMCPdfk7wNNREKnnvDnmtWjJ2n74titBUtUMtVzmbSjbcc3_LxRJ7YS4Fz-Dis/exec","unlockAll":true};
 
 var CHO=['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
 function choseong(str){
@@ -114,6 +114,97 @@ var studentName='', studentGrade='', testStartTime=null;
 var stageTimes={easy:0, medium:0, hard:0};
 var curStage=null, stageStart=null;
 var resultSubmitted=false, resultSubmitting=false;
+
+/* ===== 진행상황 로컬 저장/복원 =====
+   모바일 브라우저(특히 아이폰 사파리)는 메모리가 부족하면 백그라운드 탭을 강제로
+   새로고침하는 일이 흔해, 학생이 다른 앱을 켰다 돌아오면 풀던 내용이 사라질 수 있습니다.
+   그래서 답을 매길 때마다 localStorage에 진행상황을 자동 저장하고, 다시 열었을 때 이어서
+   풀 수 있게 합니다. (같은 브라우저의 같은 기기에서만 유효하며, 다른 학생과는 공유되지 않습니다.) */
+var PROGRESS_KEY = (function(){
+  var raw = 'vtprogress_' + (DATA.title||'') + '_' + DATA.sentences.length + '_' + JSON.stringify(DATA.sentences).length;
+  var h = 0;
+  for (var i=0; i<raw.length; i++){ h = ((h<<5)-h+raw.charCodeAt(i))|0; }
+  return 'vtprogress_' + h;
+})();
+var SAVED_PROGRESS = null;
+
+function saveProgress(){
+  try{
+    var data = {
+      studentName: studentName, studentGrade: studentGrade,
+      testStartTime: testStartTime ? testStartTime.toISOString() : null,
+      stageTimes: stageTimes, resultSubmitted: resultSubmitted,
+      hardOriginalWrongTotal: hardOriginalWrongTotal, progress: progress,
+      currentMode: currentMode, currentLevel: currentLevel, currentSentence: currentSentence,
+      blankStates: blankStates, levelBlankLog: levelBlankLog,
+      reviewSnapshotBySentence: reviewSnapshotBySentence, reviewWrongBySentence: reviewWrongBySentence,
+      reviewHasWrong: reviewHasWrong, reviewModeActive: reviewModeActive,
+      sentenceResults: sentenceResults, sentenceRecorded: sentenceRecorded
+    };
+    localStorage.setItem(PROGRESS_KEY, JSON.stringify(data));
+  }catch(e){ /* localStorage 사용 불가(프라이빗 모드 등) 시 조용히 무시 */ }
+}
+
+function loadProgress(){
+  try{
+    var raw = localStorage.getItem(PROGRESS_KEY);
+    return raw ? JSON.parse(raw) : null;
+  }catch(e){ return null; }
+}
+
+function clearProgress(){
+  try{ localStorage.removeItem(PROGRESS_KEY); }catch(e){}
+}
+
+function restoreAndContinue(){
+  var saved = SAVED_PROGRESS;
+  if(!saved) return;
+  studentName = saved.studentName||'';
+  studentGrade = saved.studentGrade||'';
+  testStartTime = saved.testStartTime ? new Date(saved.testStartTime) : null;
+  stageTimes = saved.stageTimes || {easy:0, medium:0, hard:0};
+  resultSubmitted = !!saved.resultSubmitted;
+  hardOriginalWrongTotal = (typeof saved.hardOriginalWrongTotal==='number') ? saved.hardOriginalWrongTotal : null;
+  progress = saved.progress || progress;
+  currentMode = saved.currentMode || null;
+  currentLevel = saved.currentLevel || null;
+  currentSentence = saved.currentSentence || 0;
+  blankStates = saved.blankStates || {};
+  levelBlankLog = saved.levelBlankLog || [];
+  reviewSnapshotBySentence = saved.reviewSnapshotBySentence || [];
+  reviewWrongBySentence = saved.reviewWrongBySentence || [];
+  reviewHasWrong = !!saved.reviewHasWrong;
+  reviewModeActive = !!saved.reviewModeActive;
+  sentenceResults = saved.sentenceResults || [];
+  sentenceRecorded = saved.sentenceRecorded || {};
+  showRef = false;
+
+  if (currentMode && currentLevel){
+    enterStage(currentLevel);
+    renderSentence();
+  } else if (currentMode){
+    showLevelSelector(currentMode);
+  } else if (DATA.includeKR){
+    showModeSelector();
+  } else {
+    showLevelSelector('en');
+  }
+}
+
+function renderResumeGate(saved){
+  SAVED_PROGRESS = saved;
+  document.getElementById('levelInfo').textContent='이어서 풀기';
+  document.getElementById('sentenceInfo').textContent='';
+  document.getElementById('progressFill').style.width='0%';
+  document.getElementById('actionBar').innerHTML='';
+  var h='<div class="student-info-box">';
+  h+='<h2 style="margin-bottom:10px;">이전 풀이 기록이 있어요</h2>';
+  h+='<p style="font-size:13px;color:#777;margin-bottom:18px;">'+esc(saved.studentName||'')+' 님, 저장된 진행 상황을 이어서 풀까요?</p>';
+  h+='<button class="btn-start-app" style="margin-bottom:10px;" onclick="restoreAndContinue()">이어서 풀기</button>';
+  h+='<button class="btn-start-app" style="background:#eee;color:#333;" onclick="clearProgress();renderStudentInfoGate();">처음부터 다시 시작</button>';
+  h+='</div>';
+  document.getElementById('content').innerHTML=h;
+}
 
 function esc(s){ var d=document.createElement('div'); d.textContent=(s==null?'':String(s)); return d.innerHTML; }
 function enterStage(stage){ stopStage(); curStage=stage; stageStart=Date.now(); }
@@ -150,7 +241,14 @@ function confirmStudentInfoAndStart(){
   if(!DATA.includeKR){ showLevelSelector('en'); } else { showModeSelector(); }
 }
 
-function init(){ renderStudentInfoGate(); }
+function init(){
+  var saved = loadProgress();
+  if (saved && (saved.studentName || saved.currentMode)){
+    renderResumeGate(saved);
+  } else {
+    renderStudentInfoGate();
+  }
+}
 
 function submitResultToSheet(){
   if(!DATA.sheetUrl){ return; }
@@ -192,6 +290,7 @@ function submitResultToSheet(){
   fetch(DATA.sheetUrl, { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(payload) })
     .then(function(){
       resultSubmitted=true; resultSubmitting=false;
+      saveProgress();
       if(statusEl) statusEl.textContent='✅ 저장 완료 ('+fmtDateTime(new Date())+')';
       if(btnEl) btnEl.disabled=false;
     })
@@ -227,6 +326,7 @@ function showModeSelector(){
   h+=modeCard('kr','🇰🇷','한글 해석 빈칸','문장의 한글 해석을 채워보세요');
   h+='</div></div>';
   document.getElementById('content').innerHTML=h;
+  saveProgress();
 }
 
 function showLevelSelector(mode){
@@ -249,20 +349,14 @@ function showLevelSelector(mode){
   });
   h+='</div></div>';
   document.getElementById('content').innerHTML=h;
+  saveProgress();
 }
 
-function getLevelBlanks(blanksObj, level, skipList){
+function getLevelBlanks(blanksObj, level){
   // 이전 단계를 이미 통과해야만 다음 단계에 진입할 수 있는 구조이므로,
   // 쉬움/중간 단계는 그 단계에서 새로 추가된 빈칸만 테스트합니다.
-  // 심화 단계는 쉬움+중간 단계에서 다룬 모든 빈칸(+심화 자체 빈칸)을 주관식으로 종합 복습합니다.
-  if(level==='hard'){
-    var skipSet={}; (skipList||[]).forEach(function(i){skipSet[i]=true;});
-    var set={};
-    blanksObj.easy.forEach(function(i){ if(!skipSet[i]) set[i]=true; });
-    blanksObj.medium.forEach(function(i){ if(!skipSet[i]) set[i]=true; });
-    blanksObj.hard.forEach(function(i){ if(!skipSet[i]) set[i]=true; });
-    return Object.keys(set).map(Number).sort(function(a,b){return a-b;});
-  }
+  // 심화 단계는 쉬움+중간 단계에서 다룬 모든 빈칸(+심화 자체 빈칸)을, 레벨 구분 없이 인접한 것끼리
+  // 이미 하나로 합친 blanksObj.hard(빌드 시 getHardMergedGroups로 계산됨)를 그대로 사용합니다.
   return blanksObj[level].slice();
 }
 
@@ -317,7 +411,7 @@ function getChoicesFor(idx){ return DATA.sentences[currentSentence][currentMode]
 function renderSentence(){
   var s=DATA.sentences[currentSentence];
   var track=s[currentMode];
-  var blanks=getLevelBlanks(track.blanks, currentLevel, (track.easyGroupSkip||[]).concat(track.mediumGroupSkip||[]));
+  var blanks=getLevelBlanks(track.blanks, currentLevel);
   var total=blanks.length, answered=0;
   blanks.forEach(function(idx){ var st=blankStates[idx]; if(st&&st.answered) answered++; });
 
@@ -330,7 +424,7 @@ function renderSentence(){
   var skip;
   if (currentLevel==='easy') skip = track.easyGroupSkip || [];
   else if (currentLevel==='medium') skip = track.mediumGroupSkip || [];
-  else skip = (track.easyGroupSkip||[]).concat(track.mediumGroupSkip||[]);
+  else skip = track.hardGroupSkip || [];
   var skipSet = {}; skip.forEach(function(i){ skipSet[i]=true; });
   for (var wi=0; wi<track.words.length; wi++){
     if (skipSet[wi]) continue;
@@ -369,6 +463,7 @@ function renderSentence(){
   } else {
     ab.innerHTML='';
   }
+  saveProgress();
 }
 
 function renderSelectBlank(idx,w,st){
@@ -484,7 +579,7 @@ function toggleRef(){
 function recordSentenceResultIfNeeded(){
   if(sentenceRecorded[currentSentence]) return;
   var s=DATA.sentences[currentSentence];
-  var blanks=getLevelBlanks(s[currentMode].blanks, currentLevel, (s[currentMode].easyGroupSkip||[]).concat(s[currentMode].mediumGroupSkip||[]));
+  var blanks=getLevelBlanks(s[currentMode].blanks, currentLevel);
   var correct=0;
   blanks.forEach(function(idx){ var st=blankStates[idx]; if(st&&st.correct) correct++; });
   sentenceResults.push({correct:correct,total:blanks.length});
@@ -581,6 +676,7 @@ function renderResultScreen(pass,pct,correct,total,threshold){
     buttons.push('<button class="btn btn-outline2" onclick="showLevelSelector(\''+currentMode+'\')">단계 선택으로</button>');
   }
   document.getElementById('actionBar').innerHTML=buttons.join(' ');
+  saveProgress();
 }
 
 init();
