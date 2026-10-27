@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연습문제지 — G1_Lesson3_1 (기본이해)</title>
+<style>
+html{overscroll-behavior-y:contain;}
+body{margin:0;background:#e9e9e9;font-family:'Noto Sans KR','Malgun Gothic',sans-serif;overscroll-behavior-y:contain;}
+.toolbar{position:sticky;top:0;z-index:50;max-width:860px;margin:0 auto;padding:10px 14px;background:#fff;border-bottom:2px solid #3f8a83;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.toolbar button{font-family:inherit;font-size:13px;padding:7px 14px;cursor:pointer;border:1.5px solid #3f8a83;background:#fff;color:#2f6f69;border-radius:5px;font-weight:700;}
+.toolbar button.active{background:#3f8a83;color:#fff;}
+.toolbar button:disabled{cursor:not-allowed;opacity:.45;background:#eee;color:#888;border-color:#bbb;}
+
+.ws{--ink:#1a1a1a;--soft:#444;--line:#1a1a1a;max-width:800px;margin:16px auto;background:#fff;color:var(--ink);
+  padding:26px 30px 40px;border:1px solid #ccc;font-family:'Noto Sans KR','Malgun Gothic',sans-serif;}
+.ws h1{font-size:21px;margin:0 0 6px;}
+.ws .meta{font-size:13.5px;color:var(--soft);margin-bottom:6px;}
+.ws .namebar{font-size:14px;margin:10px 0 18px;border:1px solid #999;border-radius:6px;padding:8px 12px;display:flex;gap:26px;}
+.ws .namebar span{display:inline-flex;align-items:center;gap:6px;}
+.ws .passage{border:1.5px solid var(--line);border-radius:8px;padding:18px 22px 8px;}
+.ws-seg{display:flex;align-items:stretch;gap:0;}
+.ws-seg + .ws-seg{border-top:1.5px dashed #999;}
+.ws-seg-text{flex:1;min-width:0;padding:4px 18px 6px 0;}
+.ws .stag{display:inline-block;min-width:20px;text-align:center;font-size:12px;color:#999;border:1px solid #ccc;border-radius:4px;padding:1px 5px;margin-right:6px;vertical-align:middle;}
+.ws-sentence{font-size:16.5px;line-height:2.05;margin-bottom:4px;}
+.ws-tag{display:inline-block;font-size:12px;font-weight:800;border:1.5px solid var(--line);border-radius:4px;padding:1px 7px;margin-right:6px;vertical-align:middle;}
+.tag-svoc{background:#fff;}
+.interp-underline{border-bottom:2px dotted var(--ink);padding-bottom:1px;}
+.ws-blank{font-size:14px;color:#333;margin:2px 0 12px 26px;}
+.blank-fill{display:inline-block;border-bottom:1px dotted #666;min-width:220px;height:1px;vertical-align:middle;margin-left:2px;}
+.blank-fill.short{min-width:40px;}
+.blank-lines{display:block;margin-top:4px;}
+.blank-lines .ln{display:block;border-bottom:1px dotted #888;height:22px;}
+.para-box{width:190px;flex:0 0 190px;border-left:1.5px solid var(--line);padding:14px 12px;display:flex;flex-direction:column;gap:8px;background:#fbfbfb;}
+.para-range{font-size:13px;font-weight:700;color:#555;}
+.para-write .ln{display:block;border-bottom:1px dotted #888;height:24px;}
+.task-block{border-top:2px solid var(--line);margin-top:22px;padding-top:14px;}
+.task-title{font-size:15.5px;font-weight:800;margin-bottom:6px;}
+.task-instr{font-size:13.5px;color:var(--soft);margin-bottom:10px;line-height:1.6;}
+.kw-match{display:flex;gap:30px;margin-bottom:8px;}
+.kw-col{flex:1;display:flex;flex-direction:column;gap:14px;}
+.kw-chip{border:1.5px solid var(--line);border-radius:16px;padding:6px 14px;font-size:13.5px;}
+.kw-order-blank{font-size:12.5px;color:#555;margin-right:4px;}
+.kw-desc-block{background:#f6f6f6;border:1px dashed #999;border-radius:6px;padding:8px 12px;}
+.kw-desc-ans{font-size:13.5px;line-height:1.7;}
+.paraphrase-ko{font-size:14.5px;font-weight:700;background:#f6f6f6;border:1px dashed #999;border-radius:6px;padding:8px 12px;margin-bottom:8px;}
+.hint-box{font-size:13px;color:var(--soft);border:1px dashed #999;border-radius:6px;padding:6px 10px;margin-bottom:8px;}
+.gw-item{margin-bottom:16px;}
+.gw-hint{font-size:13.5px;margin-bottom:4px;color:var(--soft);}
+.gw-grammar-ans{font-size:13px;margin-bottom:4px;background:#f6f6f6;border:1px dashed #999;border-radius:6px;padding:4px 10px;display:inline-block;}
+.gw-ko{font-size:14.5px;font-weight:700;background:#f6f6f6;border:1px dashed #999;border-radius:6px;padding:6px 12px;margin-bottom:6px;}
+.ws .footnote{font-size:12.5px;color:#777;margin-top:18px;border-top:1px dashed #bbb;padding-top:8px;}
+.ws .ans{display:none;}
+.ws.answer-mode .ans{display:inline;color:#111;font-weight:700;}
+.ws.answer-mode .kw-desc-block.ans{display:block;}
+.ws.answer-mode .interp-blank .blank-fill,
+.ws.answer-mode .ws-blank .blank-fill.short{display:none;}
+.ws.answer-mode .blank-lines{display:none;}
+.ws.answer-mode .svoc-answer{display:block;}
+.ws.answer-mode .para-write{display:none;}
+.ws.answer-mode .para-ans{display:block;}
+.svoc-answer{background:#f6f6f6;border:1px dashed #999;border-radius:6px;padding:6px 10px;margin-left:0;}
+
+/* --- 인터랙티브(화면 입력형) 요소 --- */
+.ws-input{font-family:inherit;font-size:14.5px;color:#111;border:none;border-bottom:1.5px solid #666;background:#fff;padding:3px 6px;min-width:240px;outline:none;}
+.ws-input:focus{border-bottom-color:#3f8a83;background:#f7fdfc;}
+.ws-input.wide{width:70%;min-width:260px;}
+.ws-select{font-family:inherit;font-size:14px;color:#111;border:1.5px solid #666;border-radius:6px;padding:3px 8px;background:#fff;cursor:pointer;}
+.qtag{display:inline-block;font-size:11px;font-weight:700;color:#2f6f69;background:#eef6f5;border:1px solid #bcdcd8;border-radius:5px;padding:1px 7px;margin-right:6px;vertical-align:middle;letter-spacing:.3px;}
+.pts{display:inline-block;font-size:11.5px;font-weight:700;color:#a15c00;background:#fff6e6;border:1px solid #f0d29a;border-radius:5px;padding:1px 6px;margin-left:4px;vertical-align:middle;}
+.q-row{margin:10px 0 16px;padding-left:2px;}
+.q-label{font-size:13.5px;color:#333;margin-bottom:5px;}
+.hint-btn{font-family:inherit;font-size:12px;font-weight:700;color:#2f6f69;border:1px solid #3f8a83;background:#fff;border-radius:5px;padding:2px 10px;cursor:pointer;margin-left:8px;vertical-align:middle;}
+.hint-btn:hover{background:#eef6f5;}
+.hint-ko{display:none;font-size:13.5px;color:#2f6f69;background:#eef6f5;border:1px dashed #7fc7bf;border-radius:6px;padding:5px 10px;margin-top:6px;}
+.hint-ko.show{display:block;}
+.arrange-tray{display:flex;flex-wrap:wrap;gap:8px;padding:12px;border:1.5px dashed #999;border-radius:8px;background:#fafafa;min-height:46px;margin-top:2px;}
+.tile{font-family:inherit;font-size:15px;background:#fff;border:1.5px solid #333;border-radius:7px;padding:6px 13px 6px 8px;cursor:grab;user-select:none;box-shadow:0 1px 0 #ccc;white-space:nowrap;display:inline-flex;align-items:center;gap:7px;touch-action:none;}
+.tile.dragging{opacity:.4;}
+.tile.dragging.tile-ghost{position:fixed;opacity:.97;box-shadow:0 8px 20px rgba(0,0,0,.35);transform:scale(1.04);z-index:9999;pointer-events:none;cursor:grabbing;}
+.arrange-caret{display:inline-block;width:4px;flex-shrink:0;align-self:center;background:#3f8a83;border-radius:2px;}
+.tile:active{cursor:grabbing;}
+.num-badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:#3f8a83;color:#fff;font-size:12px;font-weight:800;pointer-events:none;}
+.arrange-answer{display:none;font-size:14.5px;font-weight:700;color:#111;background:#f6f6f6;border:1px dashed #999;border-radius:6px;padding:6px 10px;margin-top:8px;}
+.ws.answer-mode .arrange-answer{display:block;}
+.correct-tag{display:none;font-size:12.5px;}
+.ws.answer-mode .correct-tag{display:inline-block;color:#127a4f;font-weight:700;margin-left:8px;}
+.grade-box{margin-top:22px;border:2px solid #3f8a83;border-radius:8px;padding:14px 16px;background:#f4fbfa;display:none;}
+.grade-box.show{display:block;}
+.grade-box h3{margin:0 0 8px;font-size:15px;color:#2f6f69;}
+.grade-json{white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace;font-size:12px;background:#fff;border:1px solid #cde;border-radius:6px;padding:8px;max-height:260px;overflow:auto;}
+.mc-mark{font-weight:700;margin:0 3px 0 1px;}
+.mc-choices{display:flex;flex-direction:column;gap:6px;margin-top:8px;}
+.mc-choices label{font-size:14px;cursor:pointer;display:flex;gap:7px;align-items:flex-start;}
+.ws-para{line-height:1.95;margin:8px 0;font-size:15px;}
+
+.score-banner{display:none;position:sticky;top:0;z-index:40;margin:0 0 18px;padding:12px 16px;border-radius:9px;border:2px solid #3f8a83;background:#f4fbfa;box-shadow:0 2px 6px rgba(0,0,0,.08);}
+.score-banner.show{display:block;}
+.score-banner.pass{border-color:#2f9e6b;background:#eafaf1;}
+.score-banner.fail{border-color:#d0555f;background:#fdeeef;}
+.score-banner .sb-main{font-size:16.5px;font-weight:800;color:#1c1c1c;}
+.score-banner .sb-sub{font-size:12.5px;color:#555;margin-top:3px;}
+.qgrade{display:none;font-size:11.5px;font-weight:800;padding:1px 8px;border-radius:999px;margin-left:6px;vertical-align:middle;white-space:nowrap;}
+.ws.answer-mode .qgrade.show{display:inline-block;}
+.qgrade.ok{background:#e3f7ee;color:#127a4f;border:1px solid #8fd9b6;}
+.qgrade.bad{background:#fdecee;color:#b23a48;border:1px solid #f3b7bd;}
+.qgrade.partial{background:#fff6e6;color:#a15c00;border:1px solid #f0d29a;}
+.qgrade.pending{background:#eef2f7;color:#555;border:1px solid #cfd8e3;}
+.gc-student-ans{display:block;width:70%;min-width:260px;margin-top:2px;padding:6px 9px;font-size:14.5px;color:#111;background:#f7fdfc;border:1px solid #666;border-radius:5px;white-space:pre-wrap;overflow-wrap:break-word;word-break:break-word;line-height:1.55;}
+.gc-student-ans.empty{color:#999;font-style:italic;}
+.gc-partial-reason{margin-top:6px;font-size:12.5px;color:#a15c00;background:#fff6e6;border:1px dashed #f0d29a;border-radius:6px;padding:6px 10px;line-height:1.5;white-space:pre-wrap;overflow-wrap:break-word;}
+
+/* ===== 재시험(오답만 다시 풀기) ===== */
+.retry-banner{display:none;margin:0 0 16px;padding:11px 15px;border:1.5px dashed #3f8a83;border-radius:8px;background:#eef6f5;font-size:13px;color:#2f6f69;line-height:1.6;}
+.ws.retry-mode .retry-banner{display:block;}
+[data-qid].q-locked{position:relative;opacity:.6;background:#f4f4f4;border-radius:6px;}
+[data-qid].q-locked input,[data-qid].q-locked select,[data-qid].q-locked textarea,[data-qid].q-locked .tile{pointer-events:none;}
+[data-qid].q-locked::after{content:attr(data-lock-label);position:absolute;top:-10px;right:8px;font-size:11px;font-weight:800;color:#2f6f69;background:#eafaf1;border:1px solid #8fd9b6;border-radius:999px;padding:2px 10px;white-space:nowrap;}
+[data-qid].q-retry-target{position:relative;box-shadow:0 0 0 2px #f0d29a inset;border-radius:6px;}
+[data-qid].q-retry-target::after{content:attr(data-retry-label);position:absolute;top:-10px;right:8px;font-size:11px;font-weight:800;color:#a15c00;background:#fff6e6;border:1px solid #f0d29a;border-radius:999px;padding:2px 10px;white-space:nowrap;}
+#bRetryWrong{display:none;}
+#bRetryWrong.show{display:inline-block;}
+
+@media print{
+  .retry-banner{display:none;}
+  .toolbar{display:none;}
+  body{background:#fff;}
+  .ws{border:none;margin:0;max-width:none;padding:14mm 14mm 10mm;}
+  .task-block{page-break-inside:avoid;}
+  .s-wrap{page-break-inside:avoid;}
+  .score-banner{position:static;box-shadow:none;}
+}
+</style>
+</head>
+<body>
+<div class="toolbar"><button id="bSubmit" onclick="submitTest()">✅ 테스트 제출</button><button id="bRetryWrong" onclick="startRetryMode()">🎯 오답만 재시험</button><button id="bRetry" class="active" onclick="retryTest()">🔁 전체 초기화</button><button onclick="window.print()">🖨 인쇄 / PDF</button></div>
+<div class="ws" id="wsRoot">
+<div class="retry-banner" id="retryBanner"></div>
+<div class="score-banner" id="scoreBanner"><div class="sb-main" id="sbMain"></div><div class="sb-sub" id="sbSub"></div></div>
+<h1>📝 연습문제지 — 기본이해</h1>
+<div class="meta">지문: <b>G1_Lesson3_1</b> · 대상 학년: <b>고1</b></div>
+<div class="namebar"><span>이름: <input type="text" class="ws-input" data-role="studentName" style="min-width:150px;" placeholder="이름을 입력"></span><span>학년: <select class="ws-select" data-role="grade"><option value="">선택</option><option>고3</option><option>고2</option><option>고1</option><option>중3</option><option>중2</option><option>중1</option></select></span></div>
+<div class="task-instr" style="margin-bottom:14px;">지문을 읽고 아래 각 문항의 지시에 따라 답을 입력하시오. 모두 입력한 뒤 상단 <b>테스트 제출</b> 버튼을 누르세요.</div>
+<div class="passage"><div class="ws-seg" style="display:block;"><div class="ws-seg-text" style="padding-right:0;"><div class="s-wrap" data-idx="1"><div class="ws-sentence" data-idx="1"><span class="stag">1</span>Is there any food you don’t like, while many others just can’t stop loving it?</div><div class="q-row" data-qid="B-UL-01" data-qtype="interp" data-points="5" data-answer="당신이 좋아하지 않는 음식이 있는가, 반면에 다른 많은 사람들은 그것을 아주 좋아하는데?"><div class="q-label"><span class="qtag">문제1</span>문장 해석<span class="pts">5점</span></div><input type="text" class="ws-input wide" placeholder="이 문장을 우리말로 해석하세요" data-role="answer"><div class="ans" style="margin-top:4px;">정답 ▸ 당신이 좋아하지 않는 음식이 있는가, 반면에 다른 많은 사람들은 그것을 아주 좋아하는데?</div></div></div><div class="s-wrap" data-idx="2"><div class="ws-sentence" data-idx="2"><span class="stag">2</span>For Isabella, such food is cilantro, the green leaves common in the cuisines of Thailand, Mexico, Morocco, and many other countries.</div><div class="q-row" data-qid="B-UL-02" data-qtype="interp" data-points="5" data-answer="이사벨라에게 그런 음식은 고수인데, 태국, 멕시코, 모로코 및 다른 많은 나라의 요리에서 흔한 녹색 잎이다."><div class="q-label"><span class="qtag">문제2</span>문장 해석<span class="pts">5점</span></div><input type="text" class="ws-input wide" placeholder="이 문장을 우리말로 해석하세요" data-role="answer"><div class="ans" style="margin-top:4px;">정답 ▸ 이사벨라에게 그런 음식은 고수인데, 태국, 멕시코, 모로코 및 다른 많은 나라의 요리에서 흔한 녹색 잎이다.</div></div></div><div class="s-wrap" data-idx="3"><div class="ws-sentence" data-idx="3"><span class="stag">3</span>Even though her family is from Thailand, Isabella loves meeting other people who don’t like cilantro since they don’t make her feel so odd or weird.</div><div class="q-row" data-qid="B-UL-03" data-qtype="interp" data-points="5" data-answer="그녀의 가족은 태국 출신이지만, 이사벨라는 고수를 좋아하지 않는 다른 사람들을 만나는 것을 좋아하는데, 그들은 그녀가 그렇게 이상하거나 기이하다고 느끼게 만들지 않기 때문이다."><div class="q-label"><span class="qtag">문제3</span>문장 해석<span class="pts">5점</span></div><input type="text" class="ws-input wide" placeholder="이 문장을 우리말로 해석하세요" data-role="answer"><div class="ans" style="margin-top:4px;">정답 ▸ 그녀의 가족은 태국 출신이지만, 이사벨라는 고수를 좋아하지 않는 다른 사람들을 만나는 것을 좋아하는데, 그들은 그녀가 그렇게 이상하거나 기이하다고 느끼게 만들지 않기 때문이다.</div></div></div><div class="s-wrap" data-idx="4"><div class="ws-sentence" data-idx="4"><span class="stag">4</span>Cilantro is one of those polarizing foods with lots of fans and haters, which often include mushrooms, olives, and blue cheese, among others.</div><div class="q-row" data-qid="B-UL-04" data-qtype="interp" data-points="5" data-answer="고수는 많은 팬과 싫어하는 사람들이 있는, 호불호가 갈리는 음식 중 하나이며, 그런 음식에는 버섯, 올리브, 블루치즈 등도 흔히 포함된다."><div class="q-label"><span class="qtag">문제4</span>문장 해석<span class="pts">5점</span></div><input type="text" class="ws-input wide" placeholder="이 문장을 우리말로 해석하세요" data-role="answer"><div class="ans" style="margin-top:4px;">정답 ▸ 고수는 많은 팬과 싫어하는 사람들이 있는, 호불호가 갈리는 음식 중 하나이며, 그런 음식에는 버섯, 올리브, 블루치즈 등도 흔히 포함된다.</div></div></div><div class="s-wrap" data-idx="5"><div class="ws-sentence" data-idx="5"><span class="stag">5</span>“Love it” or “hate it” is pretty clear for these foods, but there could be many reasons behind the preference.</div><div class="q-row" data-qid="B-UL-05" data-qtype="interp" data-points="5" data-answer="이런 음식들에 대해서는 '아주 좋다' 또는 '아주 싫다'가 꽤 분명하지만, 그 선호 뒤에는 많은 이유가 있을 수 있다."><div class="q-label"><span class="qtag">문제5</span>문장 해석<span class="pts">5점</span></div><input type="text" class="ws-input wide" placeholder="이 문장을 우리말로 해석하세요" data-role="answer"><div class="ans" style="margin-top:4px;">정답 ▸ 이런 음식들에 대해서는 '아주 좋다' 또는 '아주 싫다'가 꽤 분명하지만, 그 선호 뒤에는 많은 이유가 있을 수 있다.</div></div></div><div class="s-wrap" data-idx="6"><div class="ws-sentence" data-idx="6"><span class="stag">6</span>Let us talk about three of them.</div></div></div></div><div class="ws-seg" style="display:block;"><div class="ws-seg-text" style="padding-right:0;"><div class="s-wrap" data-idx="7"><div class="ws-sentence" data-idx="7"><span class="stag">7</span>First of all, we need to be clear about the role of the tongue.</div><div class="q-row" data-qid="B-UL-06" data-qtype="interp" data-points="5" data-answer="우선, 우리는 혀의 역할에 대해 분명히 이해할 필요가 있다."><div class="q-label"><span class="qtag">문제6</span>문장 해석<span class="pts">5점</span></div><input type="text" class="ws-input wide" placeholder="이 문장을 우리말로 해석하세요" data-role="answer"><div class="ans" style="margin-top:4px;">정답 ▸ 우선, 우리는 혀의 역할에 대해 분명히 이해할 필요가 있다.</div></div></div><div class="s-wrap" data-idx="8"><div class="ws-sentence" data-idx="8"><span class="stag">8</span>The information our tongues send to our brains is very simple.</div><div class="q-row" data-qid="B-UL-07" data-qtype="interp" data-points="5" data-answer="우리의 혀가 뇌로 보내는 정보는 매우 단순하다."><div class="q-label"><span class="qtag">문제7</span>문장 해석<span class="pts">5점</span></div><input type="text" class="ws-input wide" placeholder="이 문장을 우리말로 해석하세요" data-role="answer"><div class="ans" style="margin-top:4px;">정답 ▸ 우리의 혀가 뇌로 보내는 정보는 매우 단순하다.</div></div></div><div class="s-wrap" data-idx="9"><div class="ws-sentence" data-idx="9"><span class="stag">9</span>We generally like sweetness and hate bitterness, and the biological reasons for that are deeply rooted in our brains.</div><div class="q-row" data-qid="B-UL-08" data-qtype="interp" data-points="5" data-answer="우리는 일반적으로 단맛을 좋아하고 쓴맛을 싫어하며, 그 생물학적 이유는 우리 뇌에 깊이 뿌리박혀 있다."><div class="q-label"><span class="qtag">문제8</span>문장 해석<span class="pts">5점</span></div><input type="text" class="ws-input wide" placeholder="이 문장을 우리말로 해석하세요" data-role="answer"><div class="ans" style="margin-top:4px;">정답 ▸ 우리는 일반적으로 단맛을 좋아하고 쓴맛을 싫어하며, 그 생물학적 이유는 우리 뇌에 깊이 뿌리박혀 있다.</div></div></div><div class="s-wrap" data-idx="10"><div class="ws-sentence" data-idx="10"><span class="stag">10</span>For one, babies like sweet tastes, not bitter ones, since bitterness can indicate poison.</div><div class="q-row" data-qid="B-UL-09" data-qtype="interp" data-points="5" data-answer="한 예로, 아기들은 쓴 맛이 아니라 단 맛을 좋아하는데, 쓴맛이 독을 나타낼 수 있기 때문이다."><div class="q-label"><span class="qtag">문제9</span>문장 해석<span class="pts">5점</span></div><input type="text" class="ws-input wide" placeholder="이 문장을 우리말로 해석하세요" data-role="answer"><div class="ans" style="margin-top:4px;">정답 ▸ 한 예로, 아기들은 쓴 맛이 아니라 단 맛을 좋아하는데, 쓴맛이 독을 나타낼 수 있기 때문이다.</div></div></div><div class="s-wrap" data-idx="11"><div class="ws-sentence" data-idx="11"><span class="stag">11</span>Not liking bitter things is, in a sense, a natural defense mechanism.</div><div class="q-row" data-qid="B-UL-10" data-qtype="interp" data-points="5" data-answer="쓴 것을 좋아하지 않는 것은 어떤 의미에서는 자연스러운 방어 기제이다."><div class="q-label"><span class="qtag">문제10</span>문장 해석<span class="pts">5점</span></div><input type="text" class="ws-input wide" placeholder="이 문장을 우리말로 해석하세요" data-role="answer"><div class="ans" style="margin-top:4px;">정답 ▸ 쓴 것을 좋아하지 않는 것은 어떤 의미에서는 자연스러운 방어 기제이다.</div></div></div><div class="s-wrap" data-idx="12"><div class="ws-sentence" data-idx="12"><span class="stag">12</span>Due to genetic differences, some people may be more sensitive than others to bitterness.</div><div class="q-row" data-qid="B-UL-11" data-qtype="interp" data-points="5" data-answer="유전적 차이 때문에, 어떤 사람들은 다른 사람들보다 쓴맛에 더 민감할 수 있다."><div class="q-label"><span class="qtag">문제11</span>문장 해석<span class="pts">5점</span></div><input type="text" class="ws-input wide" placeholder="이 문장을 우리말로 해석하세요" data-role="answer"><div class="ans" style="margin-top:4px;">정답 ▸ 유전적 차이 때문에, 어떤 사람들은 다른 사람들보다 쓴맛에 더 민감할 수 있다.</div></div></div><div class="s-wrap" data-idx="13"><div class="ws-sentence" data-idx="13"><span class="stag">13</span>Interestingly, how sensitive you are to bitterness doesn’t always relate to whether or not you like a certain type of food.</div><div class="q-row" data-qid="B-UL-12" data-qtype="interp" data-points="5" data-answer="흥미롭게도, 당신이 쓴맛에 얼마나 민감한지가 특정한 종류의 음식을 좋아하는지 아닌지와 항상 관련되는 것은 아니다."><div class="q-label"><span class="qtag">문제12</span>문장 해석<span class="pts">5점</span></div><input type="text" class="ws-input wide" placeholder="이 문장을 우리말로 해석하세요" data-role="answer"><div class="ans" style="margin-top:4px;">정답 ▸ 흥미롭게도, 당신이 쓴맛에 얼마나 민감한지가 특정한 종류의 음식을 좋아하는지 아닌지와 항상 관련되는 것은 아니다.</div></div></div><div class="s-wrap" data-idx="14"><div class="ws-sentence" data-idx="14"><span class="stag">14</span>For example, the fact that someone thinks celery is more bitter than other people find it does not necessarily mean the person can’t grow to like it.</div><div class="q-row" data-qid="B-UL-13" data-qtype="interp" data-points="5" data-answer="예를 들어, 어떤 사람이 셀러리가 다른 사람들이 느끼는 것보다 더 쓰다고 생각한다는 사실이 반드시 그 사람이 그것을 점차 좋아하게 될 수 없다는 뜻은 아니다."><div class="q-label"><span class="qtag">문제13</span>문장 해석<span class="pts">5점</span></div><input type="text" class="ws-input wide" placeholder="이 문장을 우리말로 해석하세요" data-role="answer"><div class="ans" style="margin-top:4px;">정답 ▸ 예를 들어, 어떤 사람이 셀러리가 다른 사람들이 느끼는 것보다 더 쓰다고 생각한다는 사실이 반드시 그 사람이 그것을 점차 좋아하게 될 수 없다는 뜻은 아니다.</div></div></div><div class="s-wrap" data-idx="15"><div class="ws-sentence" data-idx="15"><span class="stag">15</span>Likewise, even if you find it to be less bitter than others do, you may still hate it.</div><div class="q-row" data-qid="B-UL-14" data-qtype="interp" data-points="5" data-answer="마찬가지로, 설령 당신이 그것이 다른 사람들이 느끼는 것보다 덜 쓰다고 느끼더라도, 여전히 그것을 싫어할 수 있다."><div class="q-label"><span class="qtag">문제14</span>문장 해석<span class="pts">5점</span></div><input type="text" class="ws-input wide" placeholder="이 문장을 우리말로 해석하세요" data-role="answer"><div class="ans" style="margin-top:4px;">정답 ▸ 마찬가지로, 설령 당신이 그것이 다른 사람들이 느끼는 것보다 덜 쓰다고 느끼더라도, 여전히 그것을 싫어할 수 있다.</div></div></div><div class="s-wrap" data-idx="16"><div class="ws-sentence" data-idx="16"><span class="stag">16</span>The information our tongues convey does not, however, paint a full picture of the world of tastes.</div><div class="q-row" data-qid="B-UL-15" data-qtype="interp" data-points="5" data-answer="그러나 우리의 혀가 전달하는 정보가 맛의 세계의 전체 모습을 보여주지는 않는다."><div class="q-label"><span class="qtag">문제15</span>문장 해석<span class="pts">5점</span></div><input type="text" class="ws-input wide" placeholder="이 문장을 우리말로 해석하세요" data-role="answer"><div class="ans" style="margin-top:4px;">정답 ▸ 그러나 우리의 혀가 전달하는 정보가 맛의 세계의 전체 모습을 보여주지는 않는다.</div></div></div></div></div><div class="ws-seg" style="display:block;"><div class="ws-seg-text" style="padding-right:0;"><div class="s-wrap" data-idx="17"><div class="ws-sentence" data-idx="17"><span class="stag">17</span>There are also flavors, a wider spectrum of sensations we get from food.</div><div class="q-row" data-qid="B-UL-16" data-qtype="interp" data-points="5" data-answer="또한 향미도 있는데, 이는 우리가 음식에서 얻는 더 넓은 범위의 감각이다."><div class="q-label"><span class="qtag">문제16</span>문장 해석<span class="pts">5점</span></div><input type="text" class="ws-input wide" placeholder="이 문장을 우리말로 해석하세요" data-role="answer"><div class="ans" style="margin-top:4px;">정답 ▸ 또한 향미도 있는데, 이는 우리가 음식에서 얻는 더 넓은 범위의 감각이다.</div></div></div><div class="s-wrap" data-idx="18"><div class="ws-sentence" data-idx="18"><span class="stag">18</span>To appreciate flavors such as chocolate, vanilla, blue cheese, and cilantro, we need not just our tongues, but more importantly our noses.</div><div class="q-row" data-qid="B-UL-17" data-qtype="interp" data-points="5" data-answer="초콜릿, 바닐라, 블루치즈, 고수 같은 향미를 제대로 느끼려면, 우리는 혀뿐만 아니라 더 중요하게는 코가 필요하다."><div class="q-label"><span class="qtag">문제17</span>문장 해석<span class="pts">5점</span></div><input type="text" class="ws-input wide" placeholder="이 문장을 우리말로 해석하세요" data-role="answer"><div class="ans" style="margin-top:4px;">정답 ▸ 초콜릿, 바닐라, 블루치즈, 고수 같은 향미를 제대로 느끼려면, 우리는 혀뿐만 아니라 더 중요하게는 코가 필요하다.</div></div></div><div class="s-wrap" data-idx="19"><div class="ws-sentence" data-idx="19"><span class="stag">19</span>As we chew food, its smells make their way to the back of our noses from inside our mouths, enabling us to distinguish between many flavors.</div><div class="q-row" data-qid="B-UL-18" data-qtype="interp" data-points="5" data-answer="우리가 음식을 씹을 때, 그 냄새가 입 안에서 코 뒤쪽으로 나아가며, 우리가 많은 향미를 구별할 수 있게 해 준다."><div class="q-label"><span class="qtag">문제18</span>문장 해석<span class="pts">5점</span></div><input type="text" class="ws-input wide" placeholder="이 문장을 우리말로 해석하세요" data-role="answer"><div class="ans" style="margin-top:4px;">정답 ▸ 우리가 음식을 씹을 때, 그 냄새가 입 안에서 코 뒤쪽으로 나아가며, 우리가 많은 향미를 구별할 수 있게 해 준다.</div></div></div><div class="s-wrap" data-idx="20"><div class="ws-sentence" data-idx="20"><span class="stag">20</span>Some scientists discovered that individuals with a certain gene are more sensitive to the smell of cilantro.</div><div class="q-row" data-qid="B-UL-19" data-qtype="interp" data-points="5" data-answer="일부 과학자들은 특정 유전자를 가진 사람들이 고수의 냄새에 더 민감하다는 것을 발견했다."><div class="q-label"><span class="qtag">문제19</span>문장 해석<span class="pts">5점</span></div><input type="text" class="ws-input wide" placeholder="이 문장을 우리말로 해석하세요" data-role="answer"><div class="ans" style="margin-top:4px;">정답 ▸ 일부 과학자들은 특정 유전자를 가진 사람들이 고수의 냄새에 더 민감하다는 것을 발견했다.</div></div></div><div class="s-wrap" data-idx="21"><div class="ws-sentence" data-idx="21"><span class="stag">21</span>These people are likely to say it has a soapy flavor.</div><div class="q-row" data-qid="B-UL-20" data-qtype="interp" data-points="5" data-answer="이런 사람들은 그것이 비누 같은 향미가 난다고 말할 가능성이 높다."><div class="q-label"><span class="qtag">문제20</span>문장 해석<span class="pts">5점</span></div><input type="text" class="ws-input wide" placeholder="이 문장을 우리말로 해석하세요" data-role="answer"><div class="ans" style="margin-top:4px;">정답 ▸ 이런 사람들은 그것이 비누 같은 향미가 난다고 말할 가능성이 높다.</div></div></div></div></div></div>
+<div class="task-block"><div class="task-title">① 문단 요점 완성</div><div class="task-instr">섞여 있는 단어 조각을 <b>손가락(터치) 또는 마우스로 끌어서</b> 순서대로 배치하시오. 막히면 <b>힌트</b>로 우리말 뜻을 확인할 수 있다. [각 3점]</div><div class="q-row" data-qid="B-PARA-01" data-qtype="arrange" data-points="3" data-answer="Many reasons | behind | the preference | for | polarizing foods | like | cilantro"><div class="q-label"><span class="qtag">문제21</span>문단 1 소주제 완성<span class="pts">3점</span><button type="button" class="hint-btn" onclick="wsHint(this)">힌트</button><span class="hint-ko">고수와 같은 호불호가 갈리는 음식에 대한 선호 뒤에 있는 많은 이유</span></div><div class="arrange-tray" data-arrange="1"><span class="tile" data-tok="the preference"><b class="num-badge">1</b>the preference</span><span class="tile" data-tok="for"><b class="num-badge">2</b>for</span><span class="tile" data-tok="like"><b class="num-badge">3</b>like</span><span class="tile" data-tok="behind"><b class="num-badge">4</b>behind</span><span class="tile" data-tok="Many reasons"><b class="num-badge">5</b>Many reasons</span><span class="tile" data-tok="polarizing foods"><b class="num-badge">6</b>polarizing foods</span><span class="tile" data-tok="cilantro"><b class="num-badge">7</b>cilantro</span></div><div class="arrange-answer">정답 순서▸ Many reasons behind the preference for polarizing foods like cilantro</div></div><div class="q-row" data-qid="B-PARA-02" data-qtype="arrange" data-points="3" data-answer="The information | our tongues send | and | sensitivity | to bitterness"><div class="q-label"><span class="qtag">문제22</span>문단 2 소주제 완성<span class="pts">3점</span><button type="button" class="hint-btn" onclick="wsHint(this)">힌트</button><span class="hint-ko">우리의 혀가 보내는 정보와 쓴맛에 대한 민감도</span></div><div class="arrange-tray" data-arrange="1"><span class="tile" data-tok="sensitivity"><b class="num-badge">1</b>sensitivity</span><span class="tile" data-tok="The information"><b class="num-badge">2</b>The information</span><span class="tile" data-tok="and"><b class="num-badge">3</b>and</span><span class="tile" data-tok="to bitterness"><b class="num-badge">4</b>to bitterness</span><span class="tile" data-tok="our tongues send"><b class="num-badge">5</b>our tongues send</span></div><div class="arrange-answer">정답 순서▸ The information our tongues send and sensitivity to bitterness</div></div><div class="q-row" data-qid="B-PARA-03" data-qtype="arrange" data-points="3" data-answer="Flavors | sensed by | our noses | and | a certain gene | for sensitivity | to the smell | of cilantro"><div class="q-label"><span class="qtag">문제23</span>문단 3 소주제 완성<span class="pts">3점</span><button type="button" class="hint-btn" onclick="wsHint(this)">힌트</button><span class="hint-ko">코로 느끼는 향미와 고수 냄새에 대한 민감성을 지닌 특정 유전자</span></div><div class="arrange-tray" data-arrange="1"><span class="tile" data-tok="for sensitivity"><b class="num-badge">1</b>for sensitivity</span><span class="tile" data-tok="and"><b class="num-badge">2</b>and</span><span class="tile" data-tok="sensed by"><b class="num-badge">3</b>sensed by</span><span class="tile" data-tok="to the smell"><b class="num-badge">4</b>to the smell</span><span class="tile" data-tok="Flavors"><b class="num-badge">5</b>Flavors</span><span class="tile" data-tok="of cilantro"><b class="num-badge">6</b>of cilantro</span><span class="tile" data-tok="a certain gene"><b class="num-badge">7</b>a certain gene</span><span class="tile" data-tok="our noses"><b class="num-badge">8</b>our noses</span></div><div class="arrange-answer">정답 순서▸ Flavors sensed by our noses and a certain gene for sensitivity to the smell of cilantro</div></div></div><div class="task-block"><div class="task-title">③ 본문 주제 파악</div><div class="q-row" data-qid="B-MAIN-01" data-qtype="choice" data-points="4" data-answer="3"><div class="q-label"><span class="qtag">문제24</span>다음 중 이 글의 주제를 가장 정확하게 나타낸 문장은?<span class="pts">4점</span></div><div class="mc-choices"><label><input type="radio" name="B-MAIN-01" data-role="choice" value="1"> 1. People's likes and dislikes of certain foods can be explained by several factors such as taste, genes, and sight.</label><label><input type="radio" name="B-MAIN-01" data-role="choice" value="2"> 2. People's likes and dislikes of certain foods can be explained by several factors such as taste, culture, and smell.</label><label><input type="radio" name="B-MAIN-01" data-role="choice" value="3"> 3. People's likes and dislikes of certain foods can be explained by several factors such as taste, genes, and smell.</label><label><input type="radio" name="B-MAIN-01" data-role="choice" value="4"> 4. People's likes and dislikes of certain foods cannot be explained by several factors such as taste, genes, and smell.</label><label><input type="radio" name="B-MAIN-01" data-role="choice" value="5"> 5. People's likes and dislikes of sweet foods can be explained by several factors such as taste, genes, and smell.</label></div><div class="ans" style="margin-top:6px;">정답 ▸ 3번</div></div></div><div class="task-block"><div class="task-title">② 핵심 키워드 연결</div><div class="task-instr">왼쪽 각 용어에 해당하는 <b>영어 설명</b>을 오른쪽 5개 보기에서 찾아, 그 <b>설명 번호</b>를 드롭다운에서 고르시오. (오답 보기가 섞여 있음) [각 3점]</div><div class="kw-match"><div class="kw-col"><div class="kw-chip" data-qid="B-KW-01" data-qtype="match" data-points="3" data-answer-match="2"><div style="margin-bottom:5px;"><span class="qtag">문제25</span><b>A. polarizing foods</b><span class="pts">3점</span></div><div class="q-label">설명 번호 <select class="ws-select" data-role="match"><option value=""></option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select><span class="correct-tag">정답: 2번</span></div></div><div class="kw-chip" data-qid="B-KW-02" data-qtype="match" data-points="3" data-answer-match="3"><div style="margin-bottom:5px;"><span class="qtag">문제26</span><b>B. tongue</b><span class="pts">3점</span></div><div class="q-label">설명 번호 <select class="ws-select" data-role="match"><option value=""></option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select><span class="correct-tag">정답: 3번</span></div></div><div class="kw-chip" data-qid="B-KW-03" data-qtype="match" data-points="3" data-answer-match="4"><div style="margin-bottom:5px;"><span class="qtag">문제27</span><b>C. genetic differences</b><span class="pts">3점</span></div><div class="q-label">설명 번호 <select class="ws-select" data-role="match"><option value=""></option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select><span class="correct-tag">정답: 4번</span></div></div><div class="kw-chip" data-qid="B-KW-04" data-qtype="match" data-points="3" data-answer-match="5"><div style="margin-bottom:5px;"><span class="qtag">문제28</span><b>D. flavors</b><span class="pts">3점</span></div><div class="q-label">설명 번호 <select class="ws-select" data-role="match"><option value=""></option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select><span class="correct-tag">정답: 5번</span></div></div><div class="kw-chip" data-qid="B-KW-05" data-qtype="match" data-points="3" data-answer-match="1"><div style="margin-bottom:5px;"><span class="qtag">문제29</span><b>E. noses</b><span class="pts">3점</span></div><div class="q-label">설명 번호 <select class="ws-select" data-role="match"><option value=""></option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select><span class="correct-tag">정답: 1번</span></div></div></div><div class="kw-col"><div class="kw-chip">1. The organs that receive food smells traveling from inside the mouth and help us tell many flavors apart.</div><div class="kw-chip">2. Foods that some people love very much while many others strongly dislike them.</div><div class="kw-chip">3. The body part that sends only very simple taste information, such as sweet or bitter, to the brain.</div><div class="kw-chip">4. Inborn variations between people that can make some of them more sensitive to certain tastes or smells.</div><div class="kw-chip">5. A wider range of sensations we get from food, which goes beyond the basic tastes of the tongue.</div></div></div></div>
+<div class="grade-box" id="gradeBox"><h3>📊 채점 결과</h3><div id="gradeBody"></div></div>
+<div class="footnote">본 문제지는 passage-analysis-map 분석 결과(G1_Lesson3_1)를 바탕으로 자동 생성되었습니다.</div>
+</div>
+<script id="wsItemData" type="application/json">{"ws":{"meta":{"title":"G1_Lesson3_1","grade":"고1"},"rawSentences":["Is there any food you don’t like, while many others just can’t stop loving it?","For Isabella, such food is cilantro, the green leaves common in the cuisines of Thailand, Mexico, Morocco, and many other countries.","Even though her family is from Thailand, Isabella loves meeting other people who don’t like cilantro since they don’t make her feel so odd or weird.","Cilantro is one of those polarizing foods with lots of fans and haters, which often include mushrooms, olives, and blue cheese, among others.","“Love it” or “hate it” is pretty clear for these foods, but there could be many reasons behind the preference.","Let us talk about three of them.","First of all, we need to be clear about the role of the tongue.","The information our tongues send to our brains is very simple.","We generally like sweetness and hate bitterness, and the biological reasons for that are deeply rooted in our brains.","For one, babies like sweet tastes, not bitter ones, since bitterness can indicate poison.","Not liking bitter things is, in a sense, a natural defense mechanism.","Due to genetic differences, some people may be more sensitive than others to bitterness.","Interestingly, how sensitive you are to bitterness doesn’t always relate to whether or not you like a certain type of food.","For example, the fact that someone thinks celery is more bitter than other people find it does not necessarily mean the person can’t grow to like it.","Likewise, even if you find it to be less bitter than others do, you may still hate it.","The information our tongues convey does not, however, paint a full picture of the world of tastes.","There are also flavors, a wider spectrum of sensations we get from food.","To appreciate flavors such as chocolate, vanilla, blue cheese, and cilantro, we need not just our tongues, but more importantly our noses.","As we chew food, its smells make their way to the back of our noses from inside our mouths, enabling us to distinguish between many flavors.","Some scientists discovered that individuals with a certain gene are more sensitive to the smell of cilantro.","These people are likely to say it has a soapy flavor."],"topicIdx":5,"topicReason":"but 뒤 'there could be many reasons'가 글 전체의 논점(호불호의 원인)을 제시하고 이후 내용을 예고하는 도입부 주제문","threadTopic":"음식에 대한 호불호를 가르는 여러 원인(혀의 맛, 유전, 코로 느끼는 향미)","exceptionsNote":"명사+전치사구 후치수식은 표시하지 않았고, 병렬구조와 지문 전체의 역접 전환점이 없어 화살표와 pivot은 쓰지 않았다. 동격 that절과 명사절 that절은 관계절로 표시하지 않았다.","diagram":{"segments":[{"fromIdx":1,"toIdx":6,"topic":{"ko":"호불호가 갈리는 음식(고수)과 그 이유를 살펴보겠다는 도입","en":"polarizing foods, many reasons"}},{"fromIdx":7,"toIdx":16,"topic":{"ko":"혀가 전하는 맛 정보와 쓴맛에 대한 민감도","en":"tongue, bitterness"}},{"fromIdx":17,"toIdx":21,"topic":{"ko":"코로 느끼는 향미와 고수를 비누 맛으로 느끼게 하는 유전자","en":"flavors, noses, gene"}}],"pivot":null},"sentences":[{"idx":1,"html":"Is there any food <span class=\"rel-clause\">you don’t like</span>, <span class=\"idiom-underline\">while</span><span class=\"note-badge\">반면에</span> many others just can’t stop loving it?","dual":false,"needsArrowLayer":false,"wholeGroup":false,"wholeGroupLabel":"","translation":"당신이 좋아하지 않는 음식이 있는가, 반면에 다른 많은 사람들은 그것을 아주 좋아하는데?","grammarNote":"you don’t like는 food를 수식하는 접촉절(목적격 관계대명사 생략)이고, while은 '반면에'의 대조를 나타낸다."},{"idx":2,"html":"For Isabella, such food is cilantro<span class=\"note-badge\">고수</span>, the green leaves common in the cuisines<span class=\"note-badge\">요리</span> of Thailand, Mexico, Morocco, and many other countries.","dual":false,"needsArrowLayer":false,"wholeGroup":false,"wholeGroupLabel":"","translation":"이사벨라에게 그런 음식은 고수인데, 태국, 멕시코, 모로코 및 다른 많은 나라의 요리에서 흔한 녹색 잎이다.","grammarNote":"the green leaves common in ...은 cilantro와 동격 관계의 명사구이며, 형용사 common이 뒤에서 leaves를 수식한다."},{"idx":3,"html":"Even though her family is from Thailand, Isabella loves meeting other people <span class=\"rel-clause\">who don’t like cilantro</span> since they don’t make her feel so odd or weird.","dual":false,"needsArrowLayer":false,"wholeGroup":false,"wholeGroupLabel":"","translation":"그녀의 가족은 태국 출신이지만, 이사벨라는 고수를 좋아하지 않는 다른 사람들을 만나는 것을 좋아하는데, 그들은 그녀가 그렇게 이상하거나 기이하다고 느끼게 만들지 않기 때문이다.","grammarNote":"who절이 other people을 수식하고, make her feel ...은 '그녀가 ~하게 느끼도록 만들다'는 사역 구문이다."},{"idx":4,"html":"Cilantro is one of those <span data-thread='[[\"c1\",1]]'>polarizing</span><span class=\"note-badge\">호불호가 갈리는</span> foods with lots of fans and haters, <span class=\"rel-clause\">which often include mushrooms, olives, and blue cheese, <span class=\"idiom-underline\">among others</span><span class=\"note-badge\">그 밖에도</span></span>.","dual":false,"needsArrowLayer":false,"wholeGroup":false,"wholeGroupLabel":"","translation":"고수는 많은 팬과 싫어하는 사람들이 있는, 호불호가 갈리는 음식 중 하나이며, 그런 음식에는 버섯, 올리브, 블루치즈 등도 흔히 포함된다.","grammarNote":"콤마 뒤 which절은 foods를 보충 설명하는 계속적 용법의 관계절이고, 동사 include가 복수형인 점으로 선행사가 foods임을 알 수 있다."},{"idx":5,"html":"“Love it” or “hate it” is pretty clear for these foods, but there could be many <span data-thread='[[\"c1\",2]]'>reasons</span> behind the preference.","dual":false,"needsArrowLayer":false,"wholeGroup":false,"wholeGroupLabel":"","translation":"이런 음식들에 대해서는 '아주 좋다' 또는 '아주 싫다'가 꽤 분명하지만, 그 선호 뒤에는 많은 이유가 있을 수 있다.","grammarNote":"could be는 가능성을 나타내는 조동사 표현이고, behind the preference는 reasons를 뒤에서 수식하는 전치사구다."},{"idx":6,"html":"Let us talk about three of them<span class=\"note-badge\">[=many reasons]</span>.","dual":false,"needsArrowLayer":false,"wholeGroup":false,"wholeGroupLabel":"","translation":"그 이유들 중 세 가지에 대해 이야기해 보자.","grammarNote":"Let us ~는 '~하자'는 청유 표현이고, them은 앞 문장의 many reasons를 가리킨다."},{"idx":7,"html":"First of all, we need to <span class=\"idiom-underline\">be clear about</span><span class=\"note-badge\">~을 분명히 이해하다</span> the role of the tongue.","dual":false,"needsArrowLayer":false,"wholeGroup":false,"wholeGroupLabel":"","translation":"우선, 우리는 혀의 역할에 대해 분명히 이해할 필요가 있다.","grammarNote":"need to be clear about은 '~에 대해 분명히 해야 한다'는 뜻이며, about의 목적어는 the role of the tongue이다."},{"idx":8,"html":"The information <span class=\"rel-clause\">our tongues send to our brains</span> is very simple.","dual":false,"needsArrowLayer":false,"wholeGroup":false,"wholeGroupLabel":"","translation":"우리의 혀가 뇌로 보내는 정보는 매우 단순하다.","grammarNote":"our tongues send to our brains는 목적격 관계대명사가 생략된 접촉절로 The information을 수식하며, 본동사는 is이다."},{"idx":9,"html":"We generally like sweetness<span class=\"note-badge\">단맛</span> and hate bitterness<span class=\"note-badge\">쓴맛</span>, and the <span data-thread='[[\"c1\",3]]'>biological reasons</span> for that are <span class=\"idiom-underline\">deeply rooted in</span><span class=\"note-badge\">~에 깊이 뿌리박고 있다</span> our brains.","dual":false,"needsArrowLayer":false,"wholeGroup":false,"wholeGroupLabel":"","translation":"우리는 일반적으로 단맛을 좋아하고 쓴맛을 싫어하며, 그 생물학적 이유는 우리 뇌에 깊이 뿌리박혀 있다.","grammarNote":"and가 두 개의 절을 연결하고, are rooted in은 수동태 표현이며 that은 같은 문장 앞부분의 내용(단맛 선호와 쓴맛 혐오)을 가리킨다."},{"idx":10,"html":"<span class=\"idiom-underline\">For one</span><span class=\"note-badge\">한 예로</span>, babies like sweet tastes, not bitter ones, since bitterness can indicate poison<span class=\"note-badge\">독</span>.","dual":false,"needsArrowLayer":false,"wholeGroup":false,"wholeGroupLabel":"","translation":"한 예로, 아기들은 쓴 맛이 아니라 단 맛을 좋아하는데, 쓴맛이 독을 나타낼 수 있기 때문이다.","grammarNote":"not bitter ones의 ones는 tastes를 대신하고, since는 이유를 나타내는 접속사다."},{"idx":11,"html":"Not liking bitter things is, <span class=\"idiom-underline\">in a sense</span><span class=\"note-badge\">어떤 의미에서는</span>, a natural <span class=\"idiom-underline\">defense mechanism</span><span class=\"note-badge\">방어 기제</span>.","dual":false,"needsArrowLayer":false,"wholeGroup":false,"wholeGroupLabel":"","translation":"쓴 것을 좋아하지 않는 것은 어떤 의미에서는 자연스러운 방어 기제이다.","grammarNote":"Not liking bitter things는 동명사구 주어이며, 삽입된 in a sense는 문장 전체를 한정한다."},{"idx":12,"html":"<span class=\"idiom-underline\">Due to</span><span class=\"note-badge\">~ 때문에</span> <span data-thread='[[\"c1\",4]]'>genetic differences</span>, some people may be more sensitive than others to bitterness.","dual":false,"needsArrowLayer":false,"wholeGroup":false,"wholeGroupLabel":"","translation":"유전적 차이 때문에, 어떤 사람들은 다른 사람들보다 쓴맛에 더 민감할 수 있다.","grammarNote":"more sensitive than others to bitterness는 비교급 사이에 than절이 끼어든 구조이며, be sensitive to는 '~에 민감하다'이다."},{"idx":13,"html":"Interestingly, how sensitive you are to bitterness doesn’t always <span class=\"idiom-underline\">relate to</span><span class=\"note-badge\">~와 관련되다</span> whether or not you like a certain type of food.","dual":false,"needsArrowLayer":false,"wholeGroup":false,"wholeGroupLabel":"","translation":"흥미롭게도, 당신이 쓴맛에 얼마나 민감한지가 특정한 종류의 음식을 좋아하는지 아닌지와 항상 관련되는 것은 아니다.","grammarNote":"how sensitive you are to bitterness는 명사절 주어이고, whether or not은 '~인지 아닌지'를 나타내는 명사절을 이끈다. not always는 부분부정이다."},{"idx":14,"html":"For example, the fact that someone thinks celery is more bitter than other people find it does <span class=\"idiom-underline\">not necessarily</span><span class=\"note-badge\">반드시 ~인 것은 아니다</span> mean the person can’t <span class=\"idiom-underline\">grow to like</span><span class=\"note-badge\">점차 좋아하게 되다</span> it.","dual":false,"needsArrowLayer":false,"wholeGroup":false,"wholeGroupLabel":"","translation":"예를 들어, 어떤 사람이 셀러리가 다른 사람들이 느끼는 것보다 더 쓰다고 생각한다는 사실이 반드시 그 사람이 그것을 점차 좋아하게 될 수 없다는 뜻은 아니다.","grammarNote":"the fact that ~은 동격의 that절이며 문장의 주어이고, 본동사는 does not necessarily mean이다."},{"idx":15,"html":"Likewise, even if you find it<span class=\"note-badge\">[=celery]</span> to be less bitter than others do, you may still hate it.","dual":false,"needsArrowLayer":false,"wholeGroup":false,"wholeGroupLabel":"","translation":"마찬가지로, 설령 당신이 그것이 다른 사람들이 느끼는 것보다 덜 쓰다고 느끼더라도, 여전히 그것을 싫어할 수 있다.","grammarNote":"find it to be less bitter는 5형식 구조이고, others do의 do는 find it ... bitter를 대신하는 대동사이다."},{"idx":16,"html":"The information <span class=\"rel-clause\">our tongues convey</span> does not, however, <span class=\"idiom-underline\">paint a full picture of</span><span class=\"note-badge\">~의 전체 모습을 보여주다</span> the world of tastes.","dual":false,"needsArrowLayer":false,"wholeGroup":false,"wholeGroupLabel":"","translation":"그러나 우리의 혀가 전달하는 정보가 맛의 세계의 전체 모습을 보여주지는 않는다.","grammarNote":"our tongues convey는 접촉절로 The information을 수식하고, however가 does not 사이에 삽입되었다."},{"idx":17,"html":"There are also <span data-thread='[[\"c1\",5]]'>flavors</span>, a wider spectrum<span class=\"note-badge\">범위</span> of sensations<span class=\"note-badge\">감각</span> <span class=\"rel-clause\">we get from food</span>.","dual":false,"needsArrowLayer":false,"wholeGroup":false,"wholeGroupLabel":"","translation":"또한 향미도 있는데, 이는 우리가 음식에서 얻는 더 넓은 범위의 감각이다.","grammarNote":"a wider spectrum of sensations는 flavors와 동격이고, we get from food는 sensations를 수식하는 접촉절이다."},{"idx":18,"html":"To <span class=\"idiom-underline\">appreciate</span><span class=\"note-badge\">제대로 느끼다</span> <span data-thread='[[\"c1\",6]]'>flavors</span> such as chocolate, vanilla, blue cheese, and cilantro, we need <span class=\"idiom-underline\">not just</span><span class=\"note-badge\">A뿐 아니라 B도 (not just A but B)</span> our tongues, but more importantly <span data-thread='[[\"c1\",7]]'>our noses</span>.","dual":false,"needsArrowLayer":false,"wholeGroup":false,"wholeGroupLabel":"","translation":"초콜릿, 바닐라, 블루치즈, 고수 같은 향미를 제대로 느끼려면, 우리는 혀뿐만 아니라 더 중요하게는 코가 필요하다.","grammarNote":"not just A but (more importantly) B 구조로, need의 목적어 A(our tongues)와 B(our noses)가 상관접속으로 연결되고, To appreciate ...는 목적을 나타내는 부사적 용법의 to부정사이다."},{"idx":19,"html":"As we chew food, its <span data-thread='[[\"c1\",8]]'>smells</span> <span class=\"idiom-underline\">make their way to</span><span class=\"note-badge\">~로 나아가다</span> the back of our noses from inside our mouths, enabling us to distinguish between many flavors<span class=\"tilde-badge\">~하면서</span>.","dual":false,"needsArrowLayer":false,"wholeGroup":false,"wholeGroupLabel":"","translation":"우리가 음식을 씹을 때, 그 냄새가 입 안에서 코 뒤쪽으로 나아가며, 우리가 많은 향미를 구별할 수 있게 해 준다.","grammarNote":"enabling us to distinguish ...는 문장 끝의 분사구문이고, enable A to R은 'A가 ~할 수 있게 하다'이다."},{"idx":20,"html":"Some scientists discovered that individuals with a certain <span data-thread='[[\"c1\",9]]'>gene</span><span class=\"note-badge\">유전자</span> are more sensitive to the smell of cilantro.","dual":false,"needsArrowLayer":false,"wholeGroup":false,"wholeGroupLabel":"","translation":"일부 과학자들은 특정 유전자를 가진 사람들이 고수의 냄새에 더 민감하다는 것을 발견했다.","grammarNote":"discovered 뒤의 that절은 목적어 역할을 하는 명사절이며, individuals with a certain gene이 그 절의 주어이다."},{"idx":21,"html":"These people<span class=\"note-badge\">[=individuals with a certain gene]</span> are likely to say it<span class=\"note-badge\">[=cilantro]</span> has a soapy<span class=\"note-badge\">비누 같은</span> <span data-thread='[[\"c1\",10]]'>flavor</span>.","dual":false,"needsArrowLayer":false,"wholeGroup":false,"wholeGroupLabel":"","translation":"이런 사람들은 그것이 비누 같은 향미가 난다고 말할 가능성이 높다.","grammarNote":"be likely to R은 '~할 가능성이 높다'이고, say 뒤에는 접속사 that이 생략된 명사절이 온다."}]},"advanced":false,"level":null,"wd":{"interp":{"1":{"phrase":"any food you don’t like","ko":"당신이 좋아하지 않는 어떤 음식이"},"2":{"phrase":"the green leaves common in the cuisines of Thailand, Mexico, Morocco, and many other countries","ko":"태국, 멕시코, 모로코 및 다른 많은 나라의 요리에서 흔한 녹색 잎인"},"3":{"phrase":"other people who don’t like cilantro","ko":"고수를 좋아하지 않는 다른 사람들을"},"4":{"phrase":"which often include mushrooms, olives, and blue cheese, among others","ko":"그리고 그런 음식에는 여러 가지 중에서도 버섯, 올리브, 블루치즈가 흔히 포함된다"},"5":{"phrase":"many reasons behind the preference","ko":"그 선호 뒤에 있는 많은 이유가"},"7":{"phrase":"be clear about the role of the tongue","ko":"혀의 역할에 대해 분명히 이해할"},"8":{"phrase":"The information our tongues send to our brains","ko":"우리의 혀가 뇌로 보내는 정보는"},"9":{"phrase":"are deeply rooted in our brains","ko":"우리 뇌에 깊이 뿌리박혀 있다"},"10":{"phrase":"since bitterness can indicate poison","ko":"쓴맛이 독을 나타낼 수 있기 때문에"},"11":{"phrase":"Not liking bitter things","ko":"쓴 것을 좋아하지 않는 것은"},"12":{"phrase":"more sensitive than others to bitterness","ko":"다른 사람들보다 쓴맛에 더 민감할"},"13":{"phrase":"whether or not you like a certain type of food","ko":"당신이 특정한 종류의 음식을 좋아하는지 아닌지와"},"14":{"phrase":"the fact that someone thinks celery is more bitter than other people find it","ko":"어떤 사람이 셀러리가 다른 사람들이 느끼는 것보다 더 쓰다고 생각한다는 사실이"},"15":{"phrase":"even if you find it to be less bitter than others do","ko":"설령 당신이 그것이 다른 사람들이 느끼는 것보다 덜 쓰다고 느끼더라도"},"16":{"phrase":"paint a full picture of the world of tastes","ko":"맛의 세계의 전체 모습을 보여 주지"},"17":{"phrase":"a wider spectrum of sensations we get from food","ko":"즉 우리가 음식에서 얻는 더 넓은 범위의 감각인"},"18":{"phrase":"not just our tongues, but more importantly our noses","ko":"우리의 혀뿐만 아니라 더 중요하게는 우리의 코를"},"19":{"phrase":"enabling us to distinguish between many flavors","ko":"그리고 우리가 많은 향미를 구별할 수 있게 해 준다"},"20":{"phrase":"individuals with a certain gene","ko":"특정 유전자를 가진 사람들이"},"21":{"phrase":"are likely to say it has a soapy flavor","ko":"그것이 비누 같은 향미가 난다고 말할 가능성이 높다"}},"mainIdea":{"summary":"People's likes and dislikes of certain foods can be explained by several factors such as taste, genes, and smell.","distractors":["People's likes and dislikes of certain foods cannot be explained by several factors such as taste, genes, and smell.","People's likes and dislikes of sweet foods can be explained by several factors such as taste, genes, and smell.","People's likes and dislikes of certain foods can be explained by several factors such as taste, culture, and smell.","People's likes and dislikes of certain foods can be explained by several factors such as taste, genes, and sight."]},"keywordTerms":[{"term":"polarizing foods","ko":"호불호가 갈리는 음식","def":"Foods that some people love very much while many others strongly dislike them."},{"term":"tongue","ko":"혀","def":"The body part that sends only very simple taste information, such as sweet or bitter, to the brain."},{"term":"genetic differences","ko":"유전적 차이","def":"Inborn variations between people that can make some of them more sensitive to certain tastes or smells."},{"term":"flavors","ko":"향미","def":"A wider range of sensations we get from food, which goes beyond the basic tastes of the tongue."},{"term":"noses","ko":"코","def":"The organs that receive food smells traveling from inside the mouth and help us tell many flavors apart."}],"paraPoints":[{"segIndex":1,"tokens":["Many reasons","behind","the preference","for","polarizing foods","like","cilantro"],"ko":"고수와 같은 호불호가 갈리는 음식에 대한 선호 뒤에 있는 많은 이유"},{"segIndex":2,"tokens":["The information","our tongues send","and","sensitivity","to bitterness"],"ko":"우리의 혀가 보내는 정보와 쓴맛에 대한 민감도"},{"segIndex":3,"tokens":["Flavors","sensed by","our noses","and","a certain gene","for sensitivity","to the smell","of cilantro"],"ko":"코로 느끼는 향미와 고수 냄새에 대한 민감성을 지닌 특정 유전자"}],"distractorDefs":[],"topicAlt":null,"paraphrase":null,"grammarWriting":[],"__ul":{"1":"B-UL-01","2":"B-UL-02","3":"B-UL-03","4":"B-UL-04","5":"B-UL-05","7":"B-UL-06","8":"B-UL-07","9":"B-UL-08","10":"B-UL-09","11":"B-UL-10","12":"B-UL-11","13":"B-UL-12","14":"B-UL-13","15":"B-UL-14","16":"B-UL-15","17":"B-UL-16","18":"B-UL-17","19":"B-UL-18","20":"B-UL-19","21":"B-UL-20"},"__para":["B-PARA-01","B-PARA-02","B-PARA-03"],"__kw":["B-KW-01","B-KW-02","B-KW-03","B-KW-04","B-KW-05"],"__miOrder":[4,3,0,1,2],"__kwOrder":[{"kind":"real","idx":4},{"kind":"real","idx":0},{"kind":"real","idx":1},{"kind":"real","idx":2},{"kind":"real","idx":3}]},"adv":null}</script>
+<script>window.WS_CONFIG={"testName":"G1_Lesson3_1_기본이해","level":"기본","threshold":80,"endpoint":"https://script.google.com/macros/s/AKfycbxHb25T0B2rBRvTMo4kF2hDHy0WlQSYOpLTDi2yUYoU7QPv3VotIjcKdGus6IDQckxs8w/exec"};</script>
+<script>
+(function(){
+window.__WS_START=new Date();
+window.__WS_LOCKED={};
+function refresh(){ if(typeof _wsRefreshRetryButton==='function') _wsRefreshRetryButton(); }
+var nm=document.querySelector('[data-role=studentName]');
+if(nm){ nm.addEventListener('input',refresh); nm.addEventListener('change',refresh); }
+refresh();
+/* 스크롤 중 모바일 브라우저의 "당겨서 새로고침" 등으로 페이지가 리로드돼도 직전까지
+   작성 중이던 답안이 사라지지 않도록, 입력할 때마다 이 브라우저에만 임시 저장해 둔다. */
+if(typeof _wsRestoreDraft==='function') _wsRestoreDraft();
+document.addEventListener('input', function(e){ if(e.target.closest('#wsRoot') && typeof _wsQueueSaveDraft==='function') _wsQueueSaveDraft(); });
+document.addEventListener('change', function(e){ if(e.target.closest('#wsRoot') && typeof _wsQueueSaveDraft==='function') _wsQueueSaveDraft(); });
+window.addEventListener('pagehide', function(){ if(typeof _wsSaveDraft==='function') _wsSaveDraft(); });
+document.addEventListener('visibilitychange', function(){ if(document.visibilityState==='hidden' && typeof _wsSaveDraft==='function') _wsSaveDraft(); });
+})();
+function wsHint(btn){var k=btn.parentNode.querySelector('.hint-ko');if(k)k.classList.toggle('show');}
+function advSyncGFix(el){var row=el.closest('[data-qtype="interp"]');if(!row)return;var w=row.querySelector('[data-role=gfixWrong]');var c=row.querySelector('[data-role=gfixCorrect]');var hidden=row.querySelector('input[type=hidden][data-role=answer]');if(hidden)hidden.value=(w?w.value.trim():'')+' → '+(c?c.value.trim():'');}
+function _setReveal(on){var r=document.getElementById('wsRoot');r.classList.toggle('answer-mode',on);var s=document.getElementById('bSubmit'),t=document.getElementById('bRetry');if(s){s.classList.toggle('active',on);s.disabled=on;}if(t)t.classList.toggle('active',!on);}
+function _renumberTray(tray){[].slice.call(tray.querySelectorAll('.tile')).forEach(function(t,i){var b=t.querySelector('.num-badge');if(b)b.textContent=(i+1);});}
+(function(){
+var dragEl=null, tray=null, startX=0, startY=0, moved=false, pid=null;
+var ghostOffsetX=0, ghostOffsetY=0, ghostW=0, ghostH=0, caret=null;
+/* (업그레이드 2단계)
+   1단계 수정(2D 거리 비교)만으로는 부족했던 근본 원인: 드래그 중인 타일을 그 자리에 그대로
+   둔 채(투명도만 낮춰) flex 레이아웃 계산에 계속 참여시키고 있었다. 그래서 매 pointermove마다
+   "그 타일 자신의 너비"가 줄바꿈·이웃 타일 위치에 영향을 주고, 그 변화가 다시 다음 판정에
+   영향을 주는 피드백 루프가 생겨 — 폭이 넓은 타일일수록(예: "the analog hobby") 목표 지점
+   근처에서 튕기거나(자리를 못 잡음), 짧은 타일(예: "revival") 왼쪽으로 넣으려 해도 그 순간
+   줄바꿈이 다시 계산되며 제자리로 돌아가는 문제가 있었다.
+   해결: 드래그 시작 시 실제 타일을 트레이(flex 레이아웃)에서 완전히 분리해 document.body에
+   position:fixed 로 띄운 "고스트"로 만든다 — 남은 타일들은 그 순간 한 번만 재배치되고, 이후
+   드래그 내내 완전히 고정된다(더 이상 드래그 중인 타일의 폭이 판정에 영향을 주지 않음).
+   목표 위치는 남은(고정된) 타일만 보고 "줄(row) 우선"으로 계산한다: 손끝의 y좌표로 어느 줄인지
+   먼저 찾고, 그 줄 안에서 x좌표로 삽입 지점을 정한다 — 가는 삽입선(caret)으로 미리 보여준다.
+   드롭 시점에 그 위치로 실제 타일을 되돌려 넣는다. */
+function rowsOf(tr){
+  var els=[].slice.call(tr.querySelectorAll('.tile:not(.dragging)'));
+  var rows=[];
+  els.forEach(function(el){
+    var b=el.getBoundingClientRect();
+    var row=null;
+    for(var i=0;i<rows.length;i++){ if(Math.abs(rows[i].top-b.top)<4){row=rows[i];break;} }
+    if(!row){row={top:b.top,bottom:b.bottom,items:[]};rows.push(row);}
+    row.bottom=Math.max(row.bottom,b.bottom);
+    row.items.push({el:el,rect:b});
+  });
+  rows.forEach(function(r){r.items.sort(function(a,b){return a.rect.left-b.rect.left;});});
+  rows.sort(function(a,b){return a.top-b.top;});
+  return rows;
+}
+function insertionRef(tr,x,y){
+  var rows=rowsOf(tr);
+  if(!rows.length)return null; // 트레이가 비었으면 맨 끝(=시작)에 삽입
+  var row=rows[rows.length-1];
+  for(var i=0;i<rows.length;i++){ if(y<rows[i].bottom){row=rows[i];break;} }
+  var items=row.items;
+  for(var k=0;k<items.length;k++){
+    if(x < items[k].rect.left+items[k].rect.width/2) return items[k].el;
+  }
+  var last=items[items.length-1];
+  return last?last.el.nextElementSibling:null;
+}
+document.addEventListener('pointerdown',function(e){
+  var t=e.target.closest&&e.target.closest('.tile');
+  if(!t)return;
+  if(t.closest('.q-locked'))return; // 재시험 잠금 문항은 드래그 비활성
+  var tr=t.closest('.arrange-tray');
+  if(!tr)return;
+  dragEl=t;tray=tr;moved=false;startX=e.clientX;startY=e.clientY;pid=e.pointerId;
+  try{t.setPointerCapture(e.pointerId);}catch(_){}
+});
+document.addEventListener('pointermove',function(e){
+  if(!dragEl||e.pointerId!==pid)return;
+  if(!moved&&(Math.abs(e.clientX-startX)>4||Math.abs(e.clientY-startY)>4)){
+    moved=true;
+    var r=dragEl.getBoundingClientRect();
+    ghostW=r.width;ghostH=r.height;
+    ghostOffsetX=startX-r.left;ghostOffsetY=startY-r.top;
+    dragEl.style.width=ghostW+'px';dragEl.style.height=ghostH+'px';
+    dragEl.style.left=r.left+'px';dragEl.style.top=r.top+'px';
+    document.body.appendChild(dragEl);
+    dragEl.classList.add('dragging','tile-ghost');
+    caret=document.createElement('span');
+    caret.className='arrange-caret';
+    caret.style.height=ghostH+'px';
+    tray.appendChild(caret);
+  }
+  if(!moved)return;
+  e.preventDefault();
+  dragEl.style.left=(e.clientX-ghostOffsetX)+'px';
+  dragEl.style.top=(e.clientY-ghostOffsetY)+'px';
+  var ref=insertionRef(tray,e.clientX,e.clientY);
+  if(caret.nextSibling!==ref){ if(ref==null)tray.appendChild(caret);else tray.insertBefore(caret,ref); }
+},{passive:false});
+function endDrag(e){
+  if(!dragEl||(e&&e.pointerId!==pid))return;
+  if(moved){
+    dragEl.classList.remove('dragging','tile-ghost');
+    dragEl.style.position='';dragEl.style.left='';dragEl.style.top='';
+    dragEl.style.width='';dragEl.style.height='';
+    if(caret&&caret.parentNode){ caret.parentNode.insertBefore(dragEl,caret); }
+    else if(tray){ tray.appendChild(dragEl); } // 안전망: caret이 사라진 예외 상황에도 타일이 허공에 남지 않도록 트레이 끝에 복귀
+    if(tray)_renumberTray(tray);
+    if(typeof _wsQueueSaveDraft==='function')_wsQueueSaveDraft();
+  }
+  if(caret&&caret.parentNode)caret.parentNode.removeChild(caret);
+}
+document.addEventListener('pointerup',endDrag);
+document.addEventListener('pointercancel',endDrag);
+})();
+function _p2(n){return(n<10?'0':'')+n;}
+function _fmtRange(a,b){function dd(x){return x.getFullYear()+'-'+_p2(x.getMonth()+1)+'-'+_p2(x.getDate());}function tt(x){return _p2(x.getHours())+':'+_p2(x.getMinutes());}var ds=dd(a),de=dd(b);return ds===de?(ds+' '+tt(a)+'~'+tt(b)):(ds+' '+tt(a)+'~'+de+' '+tt(b));}
+function _collect(){var locked=window.__WS_LOCKED||{};var rows=[].slice.call(document.querySelectorAll('[data-qid]')).filter(function(r){return !locked[r.getAttribute('data-qid')];});var out=[];var objEarned=0,objMax=0,subjMax=0,subjCount=0;
+rows.forEach(function(r){var qid=r.getAttribute('data-qid');var type=r.getAttribute('data-qtype');var pts=+(r.getAttribute('data-points')||0);var rec={qid:qid,type:type,max:pts};
+if(type==='interp'){var i=r.querySelector('[data-role=answer]');rec.student=i?i.value.trim():'';rec.answer=r.getAttribute('data-answer')||'';rec.autoGraded=false;var hraw=r.getAttribute('data-hints');if(hraw){try{rec.hints=JSON.parse(hraw);}catch(_){rec.hints=hraw.split(',').map(function(x){return x.trim();}).filter(Boolean);}}subjMax+=pts;subjCount++;}
+else if(type==='arrange'){var toks=[].slice.call(r.querySelectorAll('.tile')).map(function(t){return t.getAttribute('data-tok');});rec.student=toks.join(' | ');rec.answer=r.getAttribute('data-answer')||'';rec.autoGraded=true;rec.correct=(rec.student===rec.answer);rec.awarded=rec.correct?pts:0;objEarned+=rec.awarded;objMax+=pts;}
+else if(type==='match'){var m=r.querySelector('[data-role=match]');rec.student=m?m.value:'';rec.answer=r.getAttribute('data-answer-match')||'';rec.autoGraded=true;rec.correct=(rec.student!==''&&rec.student===rec.answer);rec.awarded=rec.correct?pts:0;objEarned+=rec.awarded;objMax+=pts;}
+else if(type==='topic-num'){var s=r.querySelector('[data-role=answer]');rec.student=s?s.value:'';rec.answer=r.getAttribute('data-answer');rec.answerAlt=r.getAttribute('data-answer-alt')||null;rec.autoGraded=true;var ap=+(r.getAttribute('data-points-alt')||0);if(rec.student===rec.answer){rec.awarded=pts;rec.correct=true;}else if(rec.answerAlt&&rec.student===rec.answerAlt){rec.awarded=ap;rec.correct='alt';}else{rec.awarded=0;rec.correct=false;}objEarned+=rec.awarded;objMax+=pts;}
+else if(type==='choice'){var sc=r.querySelector('[data-role=choice]:checked');rec.student=sc?sc.value:'';rec.answer=r.getAttribute('data-answer')||'';rec.autoGraded=true;rec.correct=(rec.student!==''&&rec.student===rec.answer);rec.awarded=rec.correct?pts:0;objEarned+=rec.awarded;objMax+=pts;}
+else if(type==='multichoice'){var ck=[].slice.call(r.querySelectorAll('[data-role=mc]:checked')).map(function(x){return x.value;});rec.student=ck.slice().sort().join(',');rec.answer=(r.getAttribute('data-answer')||'').split(',').map(function(x){return x.trim();}).filter(Boolean).sort().join(',');rec.autoGraded=true;rec.correct=(rec.student!==''&&rec.student===rec.answer);rec.awarded=rec.correct?pts:0;objEarned+=rec.awarded;objMax+=pts;}
+else if(type==='contentmatch'){var isMatch=(r.getAttribute('data-match')==='true');var wAns=(r.getAttribute('data-word')||'').trim().toLowerCase().replace(/[^a-z']/g,'');var cAns=(r.getAttribute('data-correct')||'').trim().toLowerCase().replace(/[^a-z']/g,'');var ox=r.querySelector('[data-role=cmchoice]:checked');var oxVal=ox?ox.value:'';var wi=r.querySelector('[data-role=cmword]');var wVal=(wi?wi.value:'').trim().toLowerCase().replace(/[^a-z']/g,'');var ci=r.querySelector('[data-role=cmcorrect]');var cVal=(ci?ci.value:'').trim().toLowerCase().replace(/[^a-z']/g,'');rec.student=oxVal+((wVal||cVal)?(' / '+wVal+' → '+cVal):'');rec.answer=(isMatch?'O':'X')+(isMatch?'':(' / '+wAns+' → '+cAns));var half=Math.round(pts*0.5);var awarded=0;if(isMatch){awarded=(oxVal==='O')?pts:0;}else{var judgeOk=(oxVal==='X');if(judgeOk)awarded+=half;if(judgeOk&&wVal&&cVal&&wVal===wAns&&cVal===cAns)awarded+=(pts-half);}rec.autoGraded=true;rec.correct=(awarded===pts);rec.awarded=awarded;objEarned+=awarded;objMax+=pts;}
+out.push(rec);});
+return {answers:out,objEarned:objEarned,objMax:objMax,subjMax:subjMax,subjCount:subjCount};}
+function _payload(){var d=_collect();var cfg=window.WS_CONFIG||{};var nm=document.querySelector('[data-role=studentName]');var gr=document.querySelector('[data-role=grade]');var end=new Date();var start=window.__WS_START||end;
+return {testName:cfg.testName||document.title,level:cfg.level||'',student:nm?nm.value.trim():'',grade:gr?gr.value:'',threshold:(cfg.threshold!=null?cfg.threshold:80),startedAt:start.toISOString(),submittedAt:end.toISOString(),timeRange:_fmtRange(start,end),objectiveEarned:d.objEarned,objectiveMax:d.objMax,subjectiveMax:d.subjMax,questions:d.answers};}
+function _banner(html){var box=document.getElementById('gradeBox');var body=document.getElementById('gradeBody');if(body)body.innerHTML=html;if(box){box.classList.add('show');box.scrollIntoView({behavior:'smooth',block:'nearest'});}}
+function _scoreBanner(mainHtml, subHtml, cls){var box=document.getElementById('scoreBanner');if(!box)return;var m=document.getElementById('sbMain'),s=document.getElementById('sbSub');if(m)m.innerHTML=mainHtml;if(s)s.innerHTML=subHtml||'';box.className='score-banner show'+(cls?(' '+cls):'');box.scrollIntoView({behavior:'smooth',block:'start'});}
+function _qHost(qid){return document.querySelector('[data-qid="'+String(qid).replace(/"/g,'')+'"]');}
+function _badgeCls(awarded,max){if(max<=0)return 'ok';if(awarded>=max)return 'ok';if(awarded<=0)return 'bad';return 'partial';}
+function _setBadge(qid,cls,text){var host=_qHost(qid);if(!host)return;var tag=host.querySelector('.qtag');if(!tag)return;var b=tag.parentNode.querySelector('.qgrade[data-for="'+String(qid).replace(/"/g,'')+'"]');if(!b){b=document.createElement('span');b.setAttribute('data-for',qid);tag.parentNode.insertBefore(b,tag.nextSibling);}b.className='qgrade show '+cls;b.textContent=text;}
+function _clearBadges(){[].slice.call(document.querySelectorAll('.qgrade')).forEach(function(b){b.parentNode.removeChild(b);});}
+function _markObjective(answers){answers.forEach(function(rec){if(rec.autoGraded===false)return;var cls=_badgeCls(rec.awarded,rec.max);var icon=cls==='ok'?' ✅':(cls==='bad'?' ❌':' ▲');_setBadge(rec.qid,cls,(rec.awarded||0)+'/'+rec.max+'점'+icon);});}
+function _markSubjectivePending(answers){answers.forEach(function(rec){if(rec.autoGraded!==false)return;if(!String(rec.student||'').trim()){_setBadge(rec.qid,'bad','0/'+rec.max+'점 ❌ (무응답)');}else{_setBadge(rec.qid,'pending','⏳ 채점중');}});}
+function _markSubjectiveResult(grades){(grades||[]).forEach(function(g){var max=Number(g.max)||0,awarded=Number(g.awarded)||0;if(g.note){_setBadge(g.qid,'bad','⚠ '+g.note);return;}var cls=_badgeCls(awarded,max);var icon=cls==='ok'?' ✅':(cls==='bad'?' ❌':' ▲');_setBadge(g.qid,cls,awarded+'/'+max+'점'+icon);});}
+/* ===== 재시험(오답·부분점수만 다시 풀기) =====
+   설계: 백엔드(Apps Script)는 수정하지 않는다 — 잠긴(만점) 문항은 _collect()가 애초에
+   payload(items)에서 제외하므로, 서버는 그때그때 "다시 푼 문항"만 받는 평소와 동일한 요청으로 본다.
+   전체 누적 결과(어떤 문항이 잠겼는지·이전 점수)는 이 브라우저의 localStorage에만 저장한다. */
+function _wsTotalMax(){var sum=0;[].slice.call(document.querySelectorAll('[data-qid]')).forEach(function(h){sum+=(+(h.getAttribute('data-points')||0));});return sum;}
+function _wsStoreKey(){var cfg=window.WS_CONFIG||{};var nm=document.querySelector('[data-role=studentName]');var name=(nm?nm.value.trim():'')||'(익명)';return 'wsRetry::'+(cfg.testName||document.title)+'::'+(cfg.level||'')+'::'+name;}
+function _wsLoadAttempt(){try{var raw=localStorage.getItem(_wsStoreKey());return raw?JSON.parse(raw):null;}catch(_){return null;}}
+function _wsSaveAttempt(rec){try{localStorage.setItem(_wsStoreKey(),JSON.stringify(rec));}catch(_){}}
+function _wsClearAttempt(){try{localStorage.removeItem(_wsStoreKey());}catch(_){}}
+/* ===== 답안 임시저장(자동저장) =====
+   위 wsRetry:: 는 "제출·채점 완료 기록"이고, 이건 "아직 제출 전, 풀고 있는 도중"의 답안이다.
+   이름 입력칸은 새로고침되면 같이 비어버리므로 이름이 아니라 testName+level로만 키를 잡는다
+   (한 기기·한 순간에는 보통 한 학생만 풀고 있다고 가정 — 임시저장이므로 이 정도로 충분하다). */
+function _wsDraftKey(){var cfg=window.WS_CONFIG||{};return 'wsDraft::'+(cfg.testName||document.title)+'::'+(cfg.level||'');}
+function _wsSaveDraft(){
+  try{
+    var wsRoot=document.getElementById('wsRoot');
+    if(wsRoot&&wsRoot.classList.contains('answer-mode'))return; // 이미 제출·정답공개된 화면은 저장하지 않음
+    var d=_collect();
+    var nm=document.querySelector('[data-role=studentName]');
+    var gr=document.querySelector('[data-role=grade]');
+    var rec={student:nm?nm.value:'',grade:gr?gr.value:'',
+      answers:d.answers.map(function(r){return {qid:r.qid,type:r.type,student:r.student};}),
+      updatedAt:new Date().toISOString()};
+    localStorage.setItem(_wsDraftKey(),JSON.stringify(rec));
+  }catch(_){}
+}
+var __wsDraftTimer=null;
+function _wsQueueSaveDraft(){ if(__wsDraftTimer)clearTimeout(__wsDraftTimer); __wsDraftTimer=setTimeout(_wsSaveDraft,400); }
+function _wsLoadDraft(){try{var raw=localStorage.getItem(_wsDraftKey());return raw?JSON.parse(raw):null;}catch(_){return null;}}
+function _wsClearDraft(){try{localStorage.removeItem(_wsDraftKey());}catch(_){}}
+function _wsRestoreDraft(){
+  var d=_wsLoadDraft();
+  if(!d||!d.answers||!d.answers.length)return;
+  var any=false;
+  d.answers.forEach(function(rec){ if(!rec.student)return; var host=_qHost(rec.qid); if(host){ _wsFillAnswer(host,rec.type,rec.student); any=true; } });
+  if(!any)return;
+  var nm=document.querySelector('[data-role=studentName]');if(nm&&d.student&&!nm.value)nm.value=d.student;
+  var gr=document.querySelector('[data-role=grade]');if(gr&&d.grade&&!gr.value)gr.value=d.grade;
+  _setRetryBanner('💾 스크롤 중 새로고침 등으로 페이지가 다시 열려, 직전까지 작성 중이던 답안을 복구했습니다. <a href="#" onclick="_setRetryBanner(\'\');return false;" style="color:#2f6f69;text-decoration:underline;">닫기</a>');
+}
+function _setRetryBanner(html){var b=document.getElementById('retryBanner');if(b)b.innerHTML=html||'';}
+// 이전 답안을 문항 타입에 맞게 화면에 다시 채워 넣는다 (재시험 대상 문항을 수정하기 쉽도록)
+function _wsFillAnswer(host,type,val){val=val||'';
+if(type==='interp'){var i=host.querySelector('[data-role=answer]');if(i)i.value=val;var gw=host.querySelector('[data-role=gfixWrong]'),gc=host.querySelector('[data-role=gfixCorrect]');if(gw||gc){var gp=val.split(' → ');if(gw)gw.value=(gp[0]||'').trim();if(gc)gc.value=(gp[1]||'').trim();}}
+else if(type==='arrange'){var tray=host.querySelector('.arrange-tray');if(!tray)return;var toks=val.split(' | ');var pool={};[].slice.call(tray.querySelectorAll('.tile')).forEach(function(t){var k=t.getAttribute('data-tok');(pool[k]=pool[k]||[]).push(t);});var ordered=[],ok=true;toks.forEach(function(k){var arr=pool[k];if(arr&&arr.length){ordered.push(arr.shift());}else{ok=false;}});if(ok&&ordered.length===tray.querySelectorAll('.tile').length){ordered.forEach(function(t){tray.appendChild(t);});_renumberTray(tray);}}
+else if(type==='match'){var m=host.querySelector('[data-role=match]');if(m)m.value=val;}
+else if(type==='topic-num'){var s=host.querySelector('[data-role=answer]');if(s)s.value=val;}
+else if(type==='choice'){[].slice.call(host.querySelectorAll('[data-role=choice]')).forEach(function(r){r.checked=(r.value===val);});}
+else if(type==='multichoice'){var vs=(val||'').split(',').map(function(x){return x.trim();}).filter(Boolean);[].slice.call(host.querySelectorAll('[data-role=mc]')).forEach(function(c){c.checked=vs.indexOf(c.value)>=0;});}
+else if(type==='contentmatch'){var parts=val.split(' / ');var ox=parts[0];[].slice.call(host.querySelectorAll('[data-role=cmchoice]')).forEach(function(r){r.checked=(r.value===ox);});if(parts[1]){var wc=parts[1].split(' → ');var wi=host.querySelector('[data-role=cmword]');if(wi)wi.value=(wc[0]||'').trim();var ci=host.querySelector('[data-role=cmcorrect]');if(ci)ci.value=(wc[1]||'').trim();}}}
+// 문항을 잠금(이전 만점 → 재채점 제외) 또는 재시험 대상(수정 가능)으로 표시
+function _wsSetLocked(host,locked,info){host.classList.toggle('q-locked',locked);host.classList.toggle('q-retry-target',!locked);
+if(locked){host.setAttribute('data-lock-label','🔒 '+(info?info.awarded:0)+'/'+(info?info.max:0)+'점 (이전 만점)');host.removeAttribute('data-retry-label');}
+else{host.removeAttribute('data-lock-label');var prev=(info&&!info.pending)?(' (이전 '+info.awarded+'/'+info.max+'점)'):'';host.setAttribute('data-retry-label','🎯 재시험 대상'+prev);}
+[].slice.call(host.querySelectorAll('input,select,textarea')).forEach(function(el){el.disabled=locked;});}
+// 이번 회차 채점 결과(grades)를 이전에 잠긴 문항(prevLocked)과 합쳐 누적 결과로 저장하고 총점을 반환
+function _wsSaveMergedAttempt(prevLocked,roundQuestions,grades){
+var items={};Object.keys(prevLocked||{}).forEach(function(qid){items[qid]=prevLocked[qid];});
+var gmap={};(grades||[]).forEach(function(g){gmap[g.qid]=g;});
+(roundQuestions||[]).forEach(function(rec){var awarded,pending=false,reason='';
+if(gmap[rec.qid]){awarded=Number(gmap[rec.qid].awarded)||0;reason=gmap[rec.qid].reason||'';}
+else if(rec.autoGraded){awarded=Number(rec.awarded)||0;}
+else{awarded=0;pending=true;} // 서술형인데 구글시트 미연결 → 판정 불가, 항상 재시험 대상으로 열어둠
+items[rec.qid]={max:rec.max,awarded:awarded,student:rec.student,reason:reason,pending:pending};});
+var totalMax=0,totalEarned=0,anyOpen=false;
+Object.keys(items).forEach(function(qid){var it=items[qid];totalMax+=Number(it.max)||0;var full=!it.pending&&it.max>0&&it.awarded>=it.max;if(full){totalEarned+=it.max;}else{totalEarned+=(Number(it.awarded)||0);anyOpen=true;}});
+_wsSaveAttempt({items:items,updatedAt:new Date().toISOString()});
+return {totalEarned:totalEarned,totalMax:totalMax,anyOpen:anyOpen};}
+function _wsRefreshRetryButton(){var btn=document.getElementById('bRetryWrong');if(!btn)return;var prev=_wsLoadAttempt();var anyOpen=false;
+if(prev&&prev.items){Object.keys(prev.items).forEach(function(qid){var it=prev.items[qid];var full=!it.pending&&it.max>0&&it.awarded>=it.max;if(!full)anyOpen=true;});}
+btn.classList.toggle('show',!!(prev&&anyOpen));}
+function startRetryMode(){var prev=_wsLoadAttempt();
+if(!prev||!prev.items){alert('이전 제출 기록을 찾을 수 없습니다. 이름을 이전 제출 때와 똑같이 입력했는지 확인해주세요.');return;}
+var items=prev.items;var lockedMap={},anyOpen=false;
+Object.keys(items).forEach(function(qid){var it=items[qid];var full=!it.pending&&it.max>0&&it.awarded>=it.max;if(full){lockedMap[qid]=it;}else{anyOpen=true;}});
+if(!anyOpen){alert('🎉 모든 문항이 이미 만점입니다! 재시험이 필요 없어요.');return;}
+window.__WS_LOCKED=lockedMap;
+_setReveal(false);
+var gb=document.getElementById('gradeBox');if(gb)gb.classList.remove('show');
+var sb=document.getElementById('scoreBanner');if(sb)sb.className='score-banner';
+_clearBadges();
+Object.keys(items).forEach(function(qid){var host=_qHost(qid);if(!host)return;var type=host.getAttribute('data-qtype');var it=items[qid];_wsFillAnswer(host,type,it.student||'');_wsSetLocked(host,!!lockedMap[qid],it);});
+var root=document.getElementById('wsRoot');if(root)root.classList.add('retry-mode');
+var btn=document.getElementById('bSubmit');if(btn){btn.textContent='✅ 재시험 제출';btn.disabled=false;btn.classList.remove('active');}
+var rw=document.getElementById('bRetryWrong');if(rw)rw.classList.remove('show');
+window.__WS_START=new Date();
+_setRetryBanner('🎯 <b>재시험 모드</b> — 🔒 표시된 문항은 이전에 만점을 받아 잠겼습니다(다시 채점하지 않습니다). 나머지 🎯 표시된 문항만 다시 풀고 아래 <b>재시험 제출</b> 버튼을 누르세요.');}
+function submitTest(){var wsRoot=document.getElementById('wsRoot');if(wsRoot&&wsRoot.classList.contains('answer-mode')){_banner('<div style="color:#b23a48;font-weight:700;">⚠ 이미 제출된 테스트입니다.</div><div style="font-size:13px;margin-top:4px;color:#555;">정답이 공개된 상태에서는 다시 제출할 수 없습니다. 위 🔁 전체 초기화 버튼을 눌러 처음부터 다시 풀거나, 🎯 오답만 재시험 버튼을 이용하세요.</div>');return;}
+var nmEl=document.querySelector('[data-role=studentName]');if(nmEl&&!nmEl.value.trim()){alert('이름을 입력해주세요. (이름으로 이전 결과를 저장해두었다가 재시험 때 불러옵니다)');return;}
+var locked=window.__WS_LOCKED||{};
+_setReveal(true);var p=_payload();var cfg=window.WS_CONFIG||{};var objPct=p.objectiveMax?Math.round(p.objectiveEarned/p.objectiveMax*100):0;var subjN=p.questions.filter(function(q){return q.autoGraded===false;}).length;
+_wsClearDraft();
+_markObjective(p.questions);_markSubjectivePending(p.questions);
+if(!cfg.endpoint){
+var merged=_wsSaveMergedAttempt(locked,p.questions,null);
+var pct=merged.totalMax?Math.round(merged.totalEarned/merged.totalMax*100):0;
+_scoreBanner('현재까지 자동 채점: '+merged.totalEarned+' / '+merged.totalMax+'점 ('+pct+'%)','서술형 '+subjN+'문항은 문항 옆에 공개된 정답과 비교해 확인하세요. (구글시트 URL을 연결하면 Gemini가 서술형까지 자동채점하고 재시험도 정확히 판정합니다.)'+(merged.anyOpen?' · 🎯 만점 못 받은 문항이 있으면 위 버튼으로 재시험할 수 있습니다.':' · 🎉 모든 문항 만점입니다!'));
+_wsRefreshRetryButton();return;}
+_scoreBanner('⏳ 채점 중…','서술형 AI 채점 · 시트 기록 중입니다.');
+fetch(cfg.endpoint,{method:'POST',body:JSON.stringify(p)}).then(function(r){return r.json();}).then(function(res){
+if(res&&res.ok){_markSubjectiveResult(res.grades);
+var merged=_wsSaveMergedAttempt(locked,p.questions,res.grades);
+var pct=merged.totalMax?Math.round(merged.totalEarned/merged.totalMax*100):0;
+var pass=pct>=p.threshold;
+var warn=res.warning?('<div style="font-size:12px;margin-top:4px;">⚠ '+res.warning+'</div>'):'';
+_scoreBanner((pass?'✅ 통과':'❌ 미통과')+' — '+merged.totalEarned+' / '+merged.totalMax+'점 ('+pct+'%)','기준 '+p.threshold+'% · 결과가 구글시트에 기록되었습니다.'+warn+(merged.anyOpen?' · 🎯 아직 만점 못 받은 문항이 있어 재시험이 가능합니다.':' · 🎉 모든 문항 만점입니다!'),pass?'pass':'fail');
+_wsRefreshRetryButton();}
+else{_banner('<div style="color:#b23a48;font-weight:700;">채점 응답 오류'+(res&&res.error?(': '+res.error):'')+'</div><div style="font-size:13px;margin-top:4px;">객관식 자동: '+p.objectiveEarned+'/'+p.objectiveMax+'점. 서술형은 문항 옆 공개 정답으로 확인하세요.</div>');}
+}).catch(function(e){_banner('<div style="color:#b23a48;font-weight:700;">시트 응답을 읽지 못했습니다.</div><div style="font-size:13px;margin-top:4px;">(전송 자체는 되었을 수 있습니다.) 객관식 자동: '+p.objectiveEarned+'/'+p.objectiveMax+'점 ('+objPct+'%).</div>');});}
+function retryTest(){_setReveal(false);var box=document.getElementById('gradeBox');if(box)box.classList.remove('show');
+var sb=document.getElementById('scoreBanner');if(sb)sb.className='score-banner';
+_clearBadges();
+window.__WS_LOCKED={};_wsClearAttempt();_wsClearDraft();
+var root=document.getElementById('wsRoot');if(root)root.classList.remove('retry-mode');
+_setRetryBanner('');
+[].slice.call(document.querySelectorAll('[data-qid]')).forEach(function(h){h.classList.remove('q-locked','q-retry-target');h.removeAttribute('data-lock-label');h.removeAttribute('data-retry-label');[].slice.call(h.querySelectorAll('input,select,textarea')).forEach(function(el){el.disabled=false;});});
+[].slice.call(document.querySelectorAll('input.ws-input[data-role=answer], input[type=hidden][data-role=answer], input.ws-input[data-role=cmword], input.ws-input[data-role=cmcorrect], input.ws-input[data-role=gfixWrong], input.ws-input[data-role=gfixCorrect]')).forEach(function(i){i.value='';});
+[].slice.call(document.querySelectorAll('select.ws-select[data-role=match], select.ws-select[data-role=answer]')).forEach(function(s){s.value='';});
+[].slice.call(document.querySelectorAll('input[type=radio][data-role=choice], input[type=checkbox][data-role=mc], input[type=radio][data-role=cmchoice]')).forEach(function(r){r.checked=false;});
+[].slice.call(document.querySelectorAll('.arrange-tray')).forEach(function(tray){var ts=[].slice.call(tray.querySelectorAll('.tile'));for(var a=ts.length-1;a>0;a--){var b=Math.floor(Math.random()*(a+1));tray.insertBefore(ts[a],ts[b]);}_renumberTray(tray);});
+var btn=document.getElementById('bSubmit');if(btn)btn.textContent='✅ 테스트 제출';
+var rw=document.getElementById('bRetryWrong');if(rw)rw.classList.remove('show');
+window.__WS_START=new Date();}
+</script>
+</body>
+</html>
